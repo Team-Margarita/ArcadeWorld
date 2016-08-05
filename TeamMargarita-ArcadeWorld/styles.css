@@ -1,0 +1,42 @@
+@font-face {
+    font-family: ArcadeFont;
+    src: url(./fonts/ARCADECLASSIC.ttf);
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  background-color: #000000;
+  font-family: ArcadeFont;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+#root {
+  text-align: center;
+  color: #FFFFFF;
+}
+
+#root #game-wrapper #main-logo {
+  margin: 75px 0px 50px 0px;
+  width: 400px;
+}
+
+#root #game-wrapper #menu-list .menu-option {
+  margin: 30px;
+  font-size: 50px;
+}
+
+#root #game-wrapper #menu-list .selected {
+  color: #8DC63F;
+}
+
+#game-canvas {
+  border: 1px solid #FFFFFF;
+}
