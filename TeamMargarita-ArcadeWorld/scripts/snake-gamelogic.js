@@ -102,9 +102,9 @@ function snake(){
 
 	//paint cells
 	function paint_cell(x, y) {
-		ctx.fillStyle = "lightblue";
+		ctx.fillStyle = "#DD0000";
 		ctx.fillRect(x * cw, y * cw, cw, cw);
-		ctx.strokeStyle = "darkblue";
+		ctx.strokeStyle = "black";
 		ctx.strokeRect(x * cw, y * cw, cw, cw);
 		//ctx.shadowColor = "#7100fd";
 		//ctx.shadowBlur = 20;
