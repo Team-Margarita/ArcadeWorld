@@ -3,7 +3,7 @@ function snake(){
 	let ctx = canvas.getContext("2d");
 	var w = canvas.width;
 	var h = canvas.height;
-	var cw = 20; //cell width
+	var cw = 25; //cell width
 	var d;
 	var food;
 
@@ -80,14 +80,14 @@ function snake(){
 
 	//paint cells
 	function paint_cell(x, y) {
-		ctx.fillStyle = "white";
+		ctx.fillStyle = "lightblue";
 		ctx.fillRect(x * cw, y * cw, cw, cw);
-		ctx.strokeStyle = "gray";
+		ctx.strokeStyle = "darkblue";
 		ctx.strokeRect(x * cw, y * cw, cw, cw);
-		ctx.shadowColor = "yellow";
-		ctx.shadowBlur = 15;
-		ctx.shadowOffsetX = 0;
-		ctx.shadowOffsetY = 0;
+		//ctx.shadowColor = "#7100fd";
+		//ctx.shadowBlur = 20;
+		//ctx.shadowOffsetX = 0;
+		//ctx.shadowOffsetY = 0;
 	}
 
 	function check_collision(x, y, array) {
