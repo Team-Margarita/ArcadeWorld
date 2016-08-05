@@ -18,8 +18,8 @@ function breakOut() {
       blockColumns = 5,
       blockWidth = 90,
       blockHeight = 25,
-      blockPadding = 10,
-      blockOffsetTop = 40,
+      blockPadding = 8,
+      blockOffsetTop = 60,
       blockOffsetLeft = 10;
   //hearts
   let heartWidth = 22,
@@ -31,13 +31,16 @@ function breakOut() {
       dy = -3;
   //keys states
   let rightPressed = false,
-      leftPressed = false;
+      leftPressed = false,
+      startPressed = false,
+      isInGame = false;
   // building lives
   let hearts = [];
   for (let l = 0; l < 3; l+=1) {
     hearts[l] = { x: 0, y: 0, status: 1};
   }
-
+  let instructionOpacity = 0.1;
+  let delta = 0.01;
   //building blocks
   let blocks = [];
   for(let c = 0; c<blockColumns; c++) {
@@ -65,6 +68,9 @@ function breakOut() {
       else if(e.keyCode === 39) {
           rightPressed = true;
       }
+      else if(e.keyCode === 13){
+        startPressed = true;
+      }
   }
   function onKeyUp(e) {
       if(e.keyCode === 37) {
@@ -74,6 +80,8 @@ function breakOut() {
           rightPressed = false;
       }
   }
+
+  isInGame = true;
 
   //COLLISION FOR BLOCKS AND BALL
   function collisionDetection() {
@@ -119,7 +127,7 @@ function breakOut() {
   function drawLives(){
     for (let l = 1; l <= 3; l+=1) {
               let livesX = canvas.width - l*(heartOffset + heartWidth);
-              let livesY = 10;
+              let livesY = 15;
               ctx.beginPath();
               ctx.moveTo(livesX, livesY);
               ctx.lineTo(livesX + 0, livesY + 4);
@@ -199,29 +207,70 @@ function breakOut() {
       }
   }
   function drawScore() {
-      ctx.font = "24px ArcadeFont";
+      ctx.font = "32px ArcadeFont";
       ctx.fillStyle = "#FFFFFF";
-      ctx.fillText("Score  "+score, 10, 27);
+      ctx.fillText("Score  "+score, 10, 35);
   }
   function drawPlayerOnTurn() {
-      ctx.font = "24px ArcadeFont";
+      ctx.font = "32px ArcadeFont";
       if(playerId === 1){
       ctx.fillStyle = '#DD0000';
       }else{
       ctx.fillStyle = '#0000DD';
       }
-      ctx.fillText("Player " + playerId, canvas.width/2 - 40, 27);
+      ctx.fillText("Player " + playerId, canvas.width/2 - 40, 35);
+  }
+
+  function drawUpperBound(){
+    ctx.beginPath();
+    ctx.moveTo(0, blockOffsetTop - 10);
+    ctx.lineTo(600, blockOffsetTop - 10);
+    ctx.strokeStyle= '#FFFFFF';
+    ctx.stroke();
+  }
+
+  if(!startPressed){
+  setInterval(updateDelta, 1500);
+  }
+  function updateDelta(){
+    delta *= -1;
+  }
+
+  function drawInstruction() {
+      ctx.font = "24px ArcadeFont";
+
+      instructionOpacity += delta;
+
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + instructionOpacity + ')';
+      ctx.fillText("Press  ' ENTER '  to  start", canvas.width/2 - 120, canvas.height/2 + 30);
+  }
+
+  function drawPlayer(){
+    ctx.font = "66px ArcadeFont";
+    if(playerId === 1){
+    ctx.fillStyle = '#DD0000';
+    }else{
+    ctx.fillStyle = '#0000DD';
+    }
+    ctx.fillText("Player " + playerId, canvas.width/2 - 120, canvas.height/2);
   }
 
   //DRAW LOOP
-  function draw() {
+  function gameLoop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if(!startPressed){
+        drawPlayer();
+        drawInstruction();
+      }
+      else
+      {
       drawBlocks();
       drawSquare();
       drawPaddle();
       drawScore();
       drawLives();
       drawPlayerOnTurn();
+      drawUpperBound();
       collisionDetection();
 
       if(x + dx > canvas.width - squareSide || x + dx < 0) {
@@ -243,8 +292,11 @@ function breakOut() {
                 endgame();
               }else
               {
-              lives > 3 ? hearts[lives-3].status = 0 : hearts[lives].status = 0;
-
+                if(lives > 3 && lives < 6){
+                  hearts[lives-3].status = 0;
+                }else if(lives < 4 && lives > 0){
+                  hearts[lives].status = 0;
+                }
                   paddleX = (canvas.width-paddleWidth)/2;
                   x = paddleX + paddleWidth/2;
                   y = canvas.height - (paddleHeight + squareSide + 10);
@@ -263,7 +315,8 @@ function breakOut() {
 
       x += dx;
       y += dy;
-      requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(gameLoop);
   }
 
   //SPEED UP EVERY 10 SEC
@@ -276,10 +329,9 @@ function breakOut() {
 
   function callNextLvl(){
     updateScoreBoard(playerId, score);
-    setTimeout(test,2000); //REMOVE LATER FOR TESTING PURPOSES ONLY TO CHECK IF SCOREBOARD UPDATES
-    function test(){
-      mainMenu(); //HERE SHOULD BE CALLED THE FUNCTION FOR NEXT LEVEL
-    }
+    initializeNewGame();
+    snake();
+
   }
 
   function endgame(){
@@ -290,6 +342,7 @@ function breakOut() {
   //RESET ON VALUES BETWEEN PLAYER'S TURNS
   function reset(){
     //general
+    startPressed = false;
     score = 0;
     lives = 3;
     playerId = 2;
@@ -321,6 +374,6 @@ function breakOut() {
     }
   }
 
-  draw();
+  gameLoop();
 
 }

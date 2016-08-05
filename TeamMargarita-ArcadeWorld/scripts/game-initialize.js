@@ -10,3 +10,9 @@ function updateScoreBoard(playerId, scoreToAdd){
     $("#player1-score").text($player1Score);
     $("#player2-score").text($player2Score);
 }
+
+function initializeNewGame(){
+  let $canvasContainer = $('#canvas-container');
+  $canvasContainer.empty();
+  $canvasContainer.append('<canvas id="game-canvas" width="600" height="600"></canvas>');
+}

@@ -1,3 +1,5 @@
+window.addEventListener('load', mainMenu);
+
 function mainMenu(){
   var selectedOption = 1;
   var isInGame = false;
@@ -28,17 +30,19 @@ function mainMenu(){
   $('[data-option="3"]').text('About');
 
 $('body').on('keydown', updateSelectedItem);
-
+$('body').on('keyup', enterSelectedItem);
   //Events
+  function enterSelectedItem(e){
+    //13 - enter
+    if(e.keyCode === 13 && !isInGame)
+    {
+      if(selectedOption === 1){
+        initializeGame();
+      }
+    }
+  }
   function updateSelectedItem(e){
-      //13 - enter
-      if(e.keyCode === 13 && !isInGame)
-      {
-        if(selectedOption === 1){
-          initializeGame();
-        }
-      }else
-      {
+
         var currentItemOption = '[data-option="' + selectedOption + '"]';
 
           $(currentItemOption).removeClass('selected');
@@ -52,8 +56,8 @@ $('body').on('keydown', updateSelectedItem);
 
         currentItemOption = '[data-option="' + selectedOption + '"]';
         $(currentItemOption).addClass('selected');
-      }
   }
+
 
   function initializeGame(){
     isInGame = true;
@@ -64,8 +68,9 @@ $('body').on('keydown', updateSelectedItem);
                .text('0');
     $root.append(player1Score);
     $root.append(player2Score);
-
-    $root.append('<canvas id="game-canvas" width="600" height="600"></canvas>');
+    $root.append('<div id="canvas-container">');
+    var $canvasContainer = $('#canvas-container');
+    $canvasContainer.append('<canvas id="game-canvas" width="600" height="600"></canvas>');
     beginGame();
   }
 }

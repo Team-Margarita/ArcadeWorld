@@ -1,4 +1,5 @@
 function snake(){
+ let score = 0;
  let canvas = document.getElementById("game-canvas");
 	let ctx = canvas.getContext("2d");
 	var w = canvas.width;
@@ -23,7 +24,7 @@ function snake(){
 		var length = 5; //initial length
 		snake_array = [];
 		for (var i = length - 1; i >= 0; i--) {
-			snake_array.push({ x: i, y: 0 });
+			snake_array.push({ x: i, y: 2 });
 		}
 	}
 
@@ -32,15 +33,26 @@ function snake(){
 		food = {
 			x: Math.round(Math.random() * (w - cw) / cw),
 			y: Math.round(Math.random() * (h - cw) / cw),
-		};
+      };
+
+      if(food.y < 2){
+        food.y +=2;
+		  }
 	}
 
 	function paint() {
 		var background = new Image();
 		background.src = "https://raw.githubusercontent.com/Team-Margarita/ArcadeWorld/master/TeamMargarita-ArcadeWorld/images/snake_bck.jpg";
+    //background.src = "./images/snake_bck.jpg"; //load local
 		ctx.drawImage(background, 0, 0);
 		ctx.fillStyle = "rgba(0, 0, 200, 0)";
 		ctx.fillRect(0, 0, w, h);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 40);
+    ctx.lineTo(600, 40);
+    ctx.strokeStyle= '#FFFFFF';
+    ctx.stroke();
 
 		var nx = snake_array[0].x;
 		var ny = snake_array[0].y;
@@ -51,9 +63,10 @@ function snake(){
 		else if (d == "down") ny++;
 
 
-		if (nx == -1 || nx == w / cw || ny == -1 || ny == h / cw || check_collision(nx, ny, snake_array)) {
+		if (nx == -1 || nx == w / cw || ny == 1 || ny == h / cw || check_collision(nx, ny, snake_array)) {
 			//restart game/game over condition
-			window.alert("Game over!");
+			//window.alert("Game over!");
+      score = 0;
 			init();
 			return;
 		}
@@ -61,6 +74,7 @@ function snake(){
 		if (nx == food.x && ny == food.y) {
 			var tail = { x: nx, y: ny };
 			//Create new food
+      score +=1;
 			create_food();
 		}
 		else {
@@ -76,6 +90,14 @@ function snake(){
 		}
 
 		paint_cell(food.x, food.y);
+
+    function paint_score() {
+        ctx.font = "28px ArcadeFont";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillText("Score  " + score, 10, 28);
+    }
+
+    paint_score();
 	}
 
 	//paint cells
