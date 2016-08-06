@@ -48,7 +48,7 @@ function snake(){
   var background = new Image();
   background.src = "https://raw.githubusercontent.com/Team-Margarita/ArcadeWorld/master/TeamMargarita-ArcadeWorld/images/snake_bck.jpg";
   //background.src = "./images/snake_bck.jpg"; //load local
-  
+
   function paint() {
     if(!startPressed){
       startScreen(playerId, startPressed);

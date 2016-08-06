@@ -2,13 +2,27 @@ function beginGame(){
   breakOut(); //CALL YOUR GAME FOR TESTING
 }
 
-function updateScoreBoard(playerId, scoreToAdd){
-    $player1Score = $("#player1-score").text() | 0;
-    $player2Score = $("#player2-score").text() | 0;
-      playerId === 1 ? ($player1Score += scoreToAdd) : ($player2Score += scoreToAdd);
+function initializeGame(){
+  var $root = $('#root');
+  $root.empty();
+  var $scoreboardContainer = $('<div/>').attr('id', 'scoreboard-container');
 
-    $("#player1-score").text($player1Score);
-    $("#player2-score").text($player2Score);
+  $root.append($scoreboardContainer);
+  var $player1Score = $('<span/>').attr('id', 'player1-score')
+             .text('0');
+  var $player2Score = $('<span/>').attr('id', 'player2-score')
+             .text('0');
+  //var $svg = $('<svg/>').attr('id', 'score-board')
+  //                      .attr('xmlns', 'http://www.w3.org/2000/svg')
+  //                      .css('background-color: blue; width: 600; height: 50');
+  $scoreboardContainer.append($player1Score);
+  $scoreboardContainer.append($player2Score);
+  $scoreboardContainer.append('<svg id="score-board" xmlns="http://www.w3.org/2000/svg">');
+  createSvgRectangle();
+  $root.append('<div id="canvas-container">');
+  var $canvasContainer = $('#canvas-container');
+  $canvasContainer.append('<canvas id="game-canvas" width="600" height="600"></canvas>');
+  beginGame();
 }
 
 function initializeNewLevel(){

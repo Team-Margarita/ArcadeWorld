@@ -37,6 +37,40 @@ body {
   color: #8DC63F;
 }
 
-#game-canvas {
+#root #scoreboard-container{
+  margin-top: 5px;
+  position: relative;
+  width: 600px;
+  height: 47px;
+  display: inline-block;
+}
+
+#root #scoreboard-container #player1-score, #player2-score{
+  position: absolute;
+  top: 2px;
+  color: #FFFFFF;
+  font-size: 40px;
+}
+
+#root #scoreboard-container #player1-score{
+    left: 20px;
+}
+
+#root #scoreboard-container #player2-score{
+    left: 560px;
+}
+
+#root #scoreboard-container #score-board{
+  background: #DD0000;
+  width: 600px;
+  height: 40px;
+  border: 1px solid #FFFFFF;
+}
+
+#root #scoreboard-container #score-board rect{
+  fill: #0000DD;
+}
+
+#root #canvas-container #game-canvas {
   border: 1px solid #FFFFFF;
 }

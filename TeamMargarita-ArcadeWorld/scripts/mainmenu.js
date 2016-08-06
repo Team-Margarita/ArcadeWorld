@@ -35,6 +35,7 @@ $('body').on('keyup', enterSelectedItem);
     if(e.keyCode === 13 && !isInGame)
     {
       if(selectedOption === 1){
+        isInGame = true;
         initializeGame();
       }
     }
@@ -54,20 +55,5 @@ $('body').on('keyup', enterSelectedItem);
 
         currentItemOption = '[data-option="' + selectedOption + '"]';
         $(currentItemOption).addClass('selected');
-  }
-
-  function initializeGame(){
-    isInGame = true;
-    $root.empty();
-    var player1Score = $('<div/>').attr('id', 'player1-score')
-               .text('0');
-    var player2Score = $('<div/>').attr('id', 'player2-score')
-               .text('0');
-    $root.append(player1Score);
-    $root.append(player2Score);
-    $root.append('<div id="canvas-container">');
-    var $canvasContainer = $('#canvas-container');
-    $canvasContainer.append('<canvas id="game-canvas" width="600" height="600"></canvas>');
-    beginGame();
   }
 }
