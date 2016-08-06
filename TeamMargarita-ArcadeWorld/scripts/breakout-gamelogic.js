@@ -32,15 +32,12 @@ function breakOut() {
   //keys states
   let rightPressed = false,
       leftPressed = false,
-      startPressed = false,
-      isInGame = false;
+      startPressed = false;
   // building lives
   let hearts = [];
   for (let l = 0; l < 3; l+=1) {
     hearts[l] = { x: 0, y: 0, status: 1};
   }
-  let instructionOpacity = 0.1;
-  let delta = 0.01;
   //building blocks
   let blocks = [];
   for(let c = 0; c<blockColumns; c++) {
@@ -68,7 +65,7 @@ function breakOut() {
       else if(e.keyCode === 39) {
           rightPressed = true;
       }
-      else if(e.keyCode === 13){
+      else if(e.keyCode === 13 && canvas){
         startPressed = true;
       }
   }
@@ -80,8 +77,6 @@ function breakOut() {
           rightPressed = false;
       }
   }
-
-  isInGame = true;
 
   //COLLISION FOR BLOCKS AND BALL
   function collisionDetection() {
@@ -97,7 +92,13 @@ function breakOut() {
                           score += 1;
                       }
                       if(score === blockRows * blockColumns) {
-                          endgame();
+                          if(playerId === 2){
+                            console.log('1');
+                            callNextLvl();
+                          }else{
+                            console.log('2');
+                          endTurn();
+                          }
                       }
                   }
               }
@@ -229,38 +230,11 @@ function breakOut() {
     ctx.stroke();
   }
 
-  if(!startPressed){
-  setInterval(updateDelta, 1500);
-  }
-  function updateDelta(){
-    delta *= -1;
-  }
-
-  function drawInstruction() {
-      ctx.font = "24px ArcadeFont";
-
-      instructionOpacity += delta;
-
-      ctx.fillStyle = 'rgba(255, 255, 255, ' + instructionOpacity + ')';
-      ctx.fillText("Press  ' ENTER '  to  start", canvas.width/2 - 120, canvas.height/2 + 30);
-  }
-
-  function drawPlayer(){
-    ctx.font = "66px ArcadeFont";
-    if(playerId === 1){
-    ctx.fillStyle = '#DD0000';
-    }else{
-    ctx.fillStyle = '#0000DD';
-    }
-    ctx.fillText("Player " + playerId, canvas.width/2 - 120, canvas.height/2);
-  }
-
   //DRAW LOOP
   function gameLoop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if(!startPressed){
-        drawPlayer();
-        drawInstruction();
+        startScreen(playerId, startPressed);
       }
       else
       {
@@ -286,10 +260,11 @@ function breakOut() {
           else {
               lives--;
               if(!lives) {
+                console.log('3');
                   callNextLvl();
               }
-              if(lives === 3){
-                endgame();
+              if(lives === 3 && playerId === 1){
+                endTurn();
               }else
               {
                 if(lives > 3 && lives < 6){
@@ -329,12 +304,12 @@ function breakOut() {
 
   function callNextLvl(){
     updateScoreBoard(playerId, score);
-    initializeNewGame();
+    initializeNewLevel();
     snake();
 
   }
 
-  function endgame(){
+  function endTurn(){
       updateScoreBoard(playerId, score);
       reset();
   }

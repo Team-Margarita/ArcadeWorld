@@ -1,6 +1,4 @@
-window.addEventListener('load', mainMenu);
-
-function mainMenu(){
+function mainMenu(inGame){
   var selectedOption = 1;
   var isInGame = false;
 
@@ -45,11 +43,11 @@ $('body').on('keyup', enterSelectedItem);
 
         var currentItemOption = '[data-option="' + selectedOption + '"]';
 
-          $(currentItemOption).removeClass('selected');
+          $('[data-option]').removeClass('selected');
         //40 - down; 38 - up
-        if(e.keyCode === 40){
+        if(e.keyCode === 40 && !isInGame){
           selectedOption === 3 ? (selectedOption = 1) : (selectedOption+=1);
-        }else if(e.keyCode === 38)
+        }else if(e.keyCode === 38 && !isInGame)
         {
           selectedOption === 1 ? (selectedOption = 3) : (selectedOption-=1);
         }
@@ -57,7 +55,6 @@ $('body').on('keyup', enterSelectedItem);
         currentItemOption = '[data-option="' + selectedOption + '"]';
         $(currentItemOption).addClass('selected');
   }
-
 
   function initializeGame(){
     isInGame = true;

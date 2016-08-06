@@ -1,7 +1,9 @@
 function snake(){
- let score = 0;
- let canvas = document.getElementById("game-canvas");
+  let playerId = 1;
+  let score = 0;
+  let canvas = document.getElementById("game-canvas");
 	let ctx = canvas.getContext("2d");
+  let startPressed = false;
 	var w = canvas.width;
 	var h = canvas.height;
 	var cw = 25; //cell width
@@ -15,10 +17,13 @@ function snake(){
 		create_snake();
 		create_food();
 		//snake speed - 70ms
+  }
+
 		if (typeof game_loop != "undefined") clearInterval(game_loop);
 		game_loop = setInterval(paint, 70);
-	}
-	init();
+
+
+    init();
 
 	function create_snake() {
 		var length = 5; //initial length
@@ -40,10 +45,16 @@ function snake(){
 		  }
 	}
 
-	function paint() {
-		var background = new Image();
-		background.src = "https://raw.githubusercontent.com/Team-Margarita/ArcadeWorld/master/TeamMargarita-ArcadeWorld/images/snake_bck.jpg";
-    //background.src = "./images/snake_bck.jpg"; //load local
+  var background = new Image();
+  background.src = "https://raw.githubusercontent.com/Team-Margarita/ArcadeWorld/master/TeamMargarita-ArcadeWorld/images/snake_bck.jpg";
+  //background.src = "./images/snake_bck.jpg"; //load local
+  
+  function paint() {
+    if(!startPressed){
+      startScreen(playerId, startPressed);
+    }else{
+    ctx.clearRect(0, 0, w, h);
+
 		ctx.drawImage(background, 0, 0);
 		ctx.fillStyle = "rgba(0, 0, 200, 0)";
 		ctx.fillRect(0, 0, w, h);
@@ -66,8 +77,18 @@ function snake(){
 		if (nx == -1 || nx == w / cw || ny == 1 || ny == h / cw || check_collision(nx, ny, snake_array)) {
 			//restart game/game over condition
 			//window.alert("Game over!");
+      updateScoreBoard(playerId, score);
       score = 0;
+      startPressed = false;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if(playerId === 2){
+        initializeNewLevel();
+        //CALL NEXT GAME AND MOVE location.reload there
+        location.reload(); //IMPORTANT TO RELOAD THE BROWSER AFTER LAST GAME CAUSE WITHOUT IT THE GAME IS BUGGED
+      }else{
+      playerId += 1;
 			init();
+      }
 			return;
 		}
 
@@ -89,22 +110,46 @@ function snake(){
 			paint_cell(c.x, c.y);
 		}
 
-		paint_cell(food.x, food.y);
+		paint_food(food.x, food.y);
 
-    function paint_score() {
+    function drawScore() {
         ctx.font = "28px ArcadeFont";
         ctx.fillStyle = "#FFFFFF";
         ctx.fillText("Score  " + score, 10, 28);
     }
 
-    paint_score();
-	}
+    function drawPlayerOnTurn() {
+        ctx.font = "32px ArcadeFont";
+        if(playerId === 1){
+        ctx.fillStyle = '#DD0000';
+        }else{
+        ctx.fillStyle = '#0000DD';
+        }
+        ctx.fillText("Player " + playerId, canvas.width/2 - 40, 35);
+    }
 
+    drawScore();
+    drawPlayerOnTurn();
+	}
+  function paint_food(x, y){
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(x * cw, y * cw, cw, cw);
+    ctx.strokeStyle = '#000000';
+    ctx.strokeRect(x * cw, y * cw, cw, cw);
+  }
 	//paint cells
-	function paint_cell(x, y) {
+	function paint_cell(x, y, isFood) {
+    if(playerId === 1)
+    {
+      ctx.fillStyle = '#DD0000';
+    }else if(playerId === 2)
+    {
+      ctx.fillStyle = '#0000DD';
+    }else{
 		ctx.fillStyle = "lightblue";
+    }
 		ctx.fillRect(x * cw, y * cw, cw, cw);
-		ctx.strokeStyle = "darkblue";
+		ctx.strokeStyle = '#000000';
 		ctx.strokeRect(x * cw, y * cw, cw, cw);
 		//ctx.shadowColor = "#7100fd";
 		//ctx.shadowBlur = 20;
@@ -126,10 +171,12 @@ function snake(){
 
 	document.addEventListener("keydown", keycontrol);
 	function keycontrol(e) {
-		var key = e.which;
-		if (key == "37" && d != "right") d = "left";
-		else if (key == "38" && d != "down") d = "up";
-		else if (key == "39" && d != "left") d = "right";
-		else if (key == "40" && d != "up") d = "down";
+    var key = e.which || e.keyCode || 0;
+		if (key == "37" && d != "right" && startPressed) d = "left";
+		else if (key == "38" && d != "down" && startPressed) d = "up";
+		else if (key == "39" && d != "left" && startPressed) d = "right";
+		else if (key == "40" && d != "up" && startPressed) d = "down";
+    if(key == '13' && !startPressed) startPressed = true;
 	}
+  }
 }
