@@ -87,7 +87,7 @@ function endScreen(){
         //initializeNewLevel();
         document.removeEventListener('keypress', returnToMainMenu);
         location.reload();
-        mainMenu();
+        //mainMenu();
     }
   }
 

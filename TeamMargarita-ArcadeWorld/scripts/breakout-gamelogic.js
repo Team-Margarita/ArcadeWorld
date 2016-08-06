@@ -276,8 +276,15 @@ function breakOut() {
                   paddleX = (canvas.width-paddleWidth)/2;
                   x = paddleX + paddleWidth/2;
                   y = canvas.height - (paddleHeight + squareSide + 10);
+                  let leftOrRight = Math.random() < 0.5 ? true : false;
+                  console.log(leftOrRight);
+                  if(leftOrRight){
                   dx = 3;
                   dy = -3;
+                  }else{
+                    dx = -3;
+                    dy = -3;
+                  }
               }
             }
           }
