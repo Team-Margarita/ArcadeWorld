@@ -9,9 +9,9 @@ function initializeGame(){
 
   $root.append($scoreboardContainer);
   var $player1Score = $('<span/>').attr('id', 'player1-score')
-             .text('0');
+             .text('000');
   var $player2Score = $('<span/>').attr('id', 'player2-score')
-             .text('0');
+             .text('000');
   //var $svg = $('<svg/>').attr('id', 'score-board')
   //                      .attr('xmlns', 'http://www.w3.org/2000/svg')
   //                      .css('background-color: blue; width: 600; height: 50');
@@ -44,16 +44,73 @@ function startScreen(playerId, startPressed){
         }else{
         ctx.fillStyle = '#0000DD';
         }
-        ctx.fillText("Player " + playerId, canvas.width/2 - 120, canvas.height/2);
+        ctx.textAlign = 'center';
+        ctx.fillText("Player " + playerId, canvas.width/2, canvas.height/2);
       }
 
       function drawInstruction() {
           ctx.font = "24px ArcadeFont";
           ctx.fillStyle = '#888888';
-          ctx.fillText("Press  ' ENTER '  to  start", canvas.width/2 - 120, canvas.height/2 + 30);
+          ctx.textAlign = 'center';
+          ctx.fillText("Press  ' ENTER '  to  start", canvas.width/2, canvas.height/2 + 30);
       }
 
       drawPlayer();
       drawInstruction();
     }
+}
+
+function endScreen(){
+  console.log('here');
+  let canvas = document.getElementById("game-canvas");
+  let ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let player1Score = $("#player1-score").text() | 0,
+      player2Score = $("#player2-score").text() | 0;
+  let color = '#FFFFFF',
+      winner = '';
+  if(player1Score > player2Score){
+    color = '#DD0000';
+    winner = 'PLAYER 1 WINS'
+  }else if(player1Score < player2Score){
+    color = '#0000DD';
+    winner = 'PLAYER 2 WINS'
+  }else{
+    winner = 'DRAW';
+  }
+
+  document.addEventListener('keypress', returnToMainMenu, false);
+
+  function returnToMainMenu(e){
+    let key = e.which || e.keyCode || 0;
+    if(key === 13) {
+        //initializeNewLevel();
+        document.removeEventListener('keypress', returnToMainMenu);
+        location.reload();
+        mainMenu();
+    }
+  }
+
+  function loop(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      function drawWinner(){
+        ctx.font = "66px ArcadeFont";
+        ctx.fillStyle = color;
+        ctx.textAlign = 'center';
+        ctx.fillText(winner, canvas.width/2, canvas.height/2);
+      }
+      function drawInstruction() {
+          ctx.font = "24px ArcadeFont";
+          ctx.fillStyle = '#888888';
+          ctx.textAlign = 'center';
+          ctx.fillText("Press  ' ENTER '  to  return", canvas.width/2, canvas.height/2 + 30);
+      }
+      drawWinner();
+      drawInstruction();
+
+
+    requestAnimationFrame(loop);
+  }
+
+  loop();
 }

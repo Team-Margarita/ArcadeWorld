@@ -59,21 +59,23 @@ function breakOut() {
   document.addEventListener("keyup", onKeyUp, false);
 
   function onKeyDown(e) {
-      if(e.keyCode === 37) {
+      let key = e.which || e.keyCode || 0;
+      if(key === 37) {
           leftPressed = true;
       }
-      else if(e.keyCode === 39) {
+      else if(key === 39) {
           rightPressed = true;
       }
-      else if(e.keyCode === 13 && canvas){
+      else if(key === 13 && canvas){
         startPressed = true;
       }
   }
   function onKeyUp(e) {
-      if(e.keyCode === 37) {
+      let key = e.which || e.keyCode || 0;
+      if(key === 37) {
           leftPressed = false;
       }
-      else if(e.keyCode === 39) {
+      else if(key === 39) {
           rightPressed = false;
       }
   }
@@ -93,10 +95,8 @@ function breakOut() {
                       }
                       if(score === blockRows * blockColumns) {
                           if(playerId === 2){
-                            console.log('1');
                             callNextLvl();
                           }else{
-                            console.log('2');
                           endTurn();
                           }
                       }
@@ -210,6 +210,7 @@ function breakOut() {
   function drawScore() {
       ctx.font = "32px ArcadeFont";
       ctx.fillStyle = "#FFFFFF";
+      ctx.textAlign = 'left';
       ctx.fillText("Score  "+score, 10, 35);
   }
   function drawPlayerOnTurn() {
@@ -219,7 +220,8 @@ function breakOut() {
       }else{
       ctx.fillStyle = '#0000DD';
       }
-      ctx.fillText("Player " + playerId, canvas.width/2 - 40, 35);
+      ctx.textAlign = 'center';
+      ctx.fillText("Player " + playerId, canvas.width/2, 35);
   }
 
   function drawUpperBound(){
@@ -260,7 +262,6 @@ function breakOut() {
           else {
               lives--;
               if(!lives) {
-                console.log('3');
                   callNextLvl();
               }
               if(lives === 3 && playerId === 1){

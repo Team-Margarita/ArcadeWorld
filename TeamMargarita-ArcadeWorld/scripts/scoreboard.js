@@ -21,11 +21,19 @@ function updateScoreBoard(playerId, scoreToAdd){
     let rect = document.getElementById('score-rect');
     let oldRatioBar = +rect.getAttribute('x');
 
-    console.log('ratio ' + ratio);
-    console.log('ratioBar ' + ratio);
-
     oldRatioBar > ratioBar ? dX = -2 : dX = 2;
 
+    //padding zeroes
+    if(player1Score < 10){
+      player1Score = '00' + player1Score;
+    }else if(player1Score > 9 && player1Score < 100){
+      player1Score = '0' + player1Score;
+    }
+    if(player2Score < 10){
+      player2Score = '00' + player2Score;
+    }else if(player2Score > 9 && player2Score < 100){
+      player2Score = '0' + player2Score;
+    }
     $("#player1-score").text(player1Score);
     $("#player2-score").text(player2Score);
     barUpdate(ratioBar, dX);
@@ -45,7 +53,6 @@ function barUpdate(ratioBar, dX){
   }else if(x < ratio && dX < 0){
     return;
   }
-  console.log(x);
   rect.setAttribute('x', x + deltaX);
   requestAnimationFrame(animate);
   }

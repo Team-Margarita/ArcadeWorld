@@ -28,7 +28,7 @@ function mainMenu(inGame){
   $('[data-option="3"]').text('About');
 
 $('body').on('keydown', updateSelectedItem);
-$('body').on('keyup', enterSelectedItem);
+$('body').on('keypress', enterSelectedItem);
   //Events
   function enterSelectedItem(e){
     //13 - enter

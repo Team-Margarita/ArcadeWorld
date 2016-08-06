@@ -83,8 +83,7 @@ function snake(){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if(playerId === 2){
         initializeNewLevel();
-        //CALL NEXT GAME AND MOVE location.reload there
-        location.reload(); //IMPORTANT TO RELOAD THE BROWSER AFTER LAST GAME CAUSE WITHOUT IT THE GAME IS BUGGED
+        endScreen(); //CALL NEXT GAME
       }else{
       playerId += 1;
 			init();
@@ -115,6 +114,7 @@ function snake(){
     function drawScore() {
         ctx.font = "28px ArcadeFont";
         ctx.fillStyle = "#FFFFFF";
+        ctx.textAlign = 'left';
         ctx.fillText("Score  " + score, 10, 28);
     }
 
@@ -125,7 +125,8 @@ function snake(){
         }else{
         ctx.fillStyle = '#0000DD';
         }
-        ctx.fillText("Player " + playerId, canvas.width/2 - 40, 35);
+        ctx.textAlign = 'center';
+        ctx.fillText("Player " + playerId, canvas.width/2, 35);
     }
 
     drawScore();
@@ -171,7 +172,7 @@ function snake(){
 
 	document.addEventListener("keydown", keycontrol);
 	function keycontrol(e) {
-    var key = e.which || e.keyCode || 0;
+    let key = e.which || e.keyCode || 0;
 		if (key == "37" && d != "right" && startPressed) d = "left";
 		else if (key == "38" && d != "down" && startPressed) d = "up";
 		else if (key == "39" && d != "left" && startPressed) d = "right";
