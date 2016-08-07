@@ -32,7 +32,8 @@ function breakOut() {
   //keys states
   let rightPressed = false,
       leftPressed = false,
-      startPressed = false;
+      startPressed = false,
+      nextLevelCalled = false;
   // building lives
   let hearts = [];
   for (let l = 0; l < 3; l+=1) {
@@ -95,6 +96,7 @@ function breakOut() {
                       }
                       if(score === blockRows * blockColumns) {
                           if(playerId === 2){
+                            nextLevelCalled = true;
                             callNextLvl();
                           }else{
                           endTurn();
@@ -261,7 +263,7 @@ function breakOut() {
           }
           else {
               lives--;
-              if(!lives) {
+              if(lives === 0) {
                   callNextLvl();
               }
               if(lives === 3 && playerId === 1){
@@ -277,14 +279,10 @@ function breakOut() {
                   x = paddleX + paddleWidth/2;
                   y = canvas.height - (paddleHeight + squareSide + 10);
                   let leftOrRight = Math.random() < 0.5 ? true : false;
-                  console.log(leftOrRight);
                   if(leftOrRight){
                   dx = 3;
                   dy = -3;
-                  }else{
-                    dx = -3;
-                    dy = -3;
-                  }
+                }else{}
               }
             }
           }
@@ -298,6 +296,10 @@ function breakOut() {
 
       x += dx;
       y += dy;
+
+      if(nextLevelCalled){
+        return;
+      }
       }
       requestAnimationFrame(gameLoop);
   }
@@ -358,5 +360,9 @@ function breakOut() {
   }
 
   gameLoop();
+
+  if(nextLevelCalled){
+    return;
+  }
 
 }
