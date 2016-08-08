@@ -97,6 +97,21 @@ function mainMenu(inGame){
     function createAbout(){
         var $wrapper = $('#game-wrapper');
         $wrapper.empty();
+
+        var $teamlogo = $('<img/>').attr('id', 'team-logo')
+                               .attr('src', './images/team-margarita-logo.png');
+        var $description = $('<div/>').attr('id', 'description-container');
+        var $firstDiv = $('<div/>').html('Welcome to <span>Arcade World</span> - A place where you and your friends can compete against each other.' +
+        '<br/>Test your gaming skills on the arcade fields and proove your dominance.');
+        var $secondDiv = $('<div/>').html('<div><br/>This is an educational team work project for the <span>JavaScript UI and DOM</span> course in <span>Telerik Academy</span>.');
+        var $thirdDiv = $('<div/>').append('<span/>').attr('id', 'instructions').text("Press 'B' to return to main menu.");
+
+        $description.append($firstDiv);
+        $description.append($secondDiv);
+        $description.append($thirdDiv);
+
+        $wrapper.append($teamlogo);
+        $wrapper.append($description);
         //TODO: Implementation
     }
 }

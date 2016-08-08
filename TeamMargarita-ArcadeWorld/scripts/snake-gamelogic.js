@@ -45,8 +45,8 @@ function snake(){
 		  }
 	}
 
-  var background = new Image();
-  background.src = "https://raw.githubusercontent.com/Team-Margarita/ArcadeWorld/master/TeamMargarita-ArcadeWorld/images/snake_bck.jpg";
+  //var background = new Image();
+  //background.src = "https://raw.githubusercontent.com/Team-Margarita/ArcadeWorld/master/TeamMargarita-ArcadeWorld/images/snake_bck.jpg";
   //background.src = "./images/snake_bck.jpg"; //load local
 
   function paint() {
@@ -55,9 +55,9 @@ function snake(){
     }else{
     ctx.clearRect(0, 0, w, h);
 
-		ctx.drawImage(background, 0, 0);
-		ctx.fillStyle = "rgba(0, 0, 200, 0)";
-		ctx.fillRect(0, 0, w, h);
+		//ctx.drawImage(background, 0, 0);
+		//ctx.fillStyle = "rgba(0, 0, 200, 0)";
+		//ctx.fillRect(0, 0, w, h);
 
     ctx.beginPath();
     ctx.moveTo(0, 40);

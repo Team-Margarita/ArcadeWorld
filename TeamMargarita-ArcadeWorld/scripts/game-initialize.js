@@ -86,20 +86,30 @@ function endScreen(){
         //mainMenu();
     }
   }
-
+    var trophy = new Image();
+    if(winner === 'PLAYER 1 WINS'){
+      trophy.src = './images/player1_victory.png';
+    }else if(winner === 'PLAYER 2 WINS'){
+      trophy.src = './images/player2_victory.png';
+    }else{
+      trophy.src = './images/draw.png';
+    }
+    console.log(trophy.src);
   function loop(){
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(trophy, 150, 70, 300, 300);
       function drawWinner(){
         ctx.font = "66px ArcadeFont";
         ctx.fillStyle = color;
         ctx.textAlign = 'center';
-        ctx.fillText(winner, canvas.width/2, canvas.height/2);
+        ctx.fillText(winner, canvas.width/2, canvas.height/2 + 100);
       }
       function drawInstruction() {
           ctx.font = "24px ArcadeFont";
           ctx.fillStyle = '#888888';
           ctx.textAlign = 'center';
-          ctx.fillText("Press  ' ENTER '  to  return", canvas.width/2, canvas.height/2 + 30);
+          ctx.fillText("Press  ' ENTER '  to  return", canvas.width/2, canvas.height/2 + 130);
       }
       drawWinner();
       drawInstruction();

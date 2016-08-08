@@ -28,13 +28,40 @@ body {
   width: 500px;
 }
 
+#root #game-wrapper #team-logo {
+  margin: 50px 0px 30px 0px;
+  width: 500px;
+}
+
+#root #game-wrapper #description-container {
+  margin: 0 auto;
+  text-align: left;
+  font-size: 24px;
+  word-spacing: 5px;
+  width: 500px;
+}
+
+#root #game-wrapper #description-container #instructions{
+  text-align: center;
+  color: #888888;
+  margin-top: 80px;
+}
+
+#root #game-wrapper #description-container span{
+  color: #8DC53E;
+}
+
+#root #game-wrapper #description-container div{
+  margin-bottom: 30px;
+}
+
 #root #game-wrapper #menu-list .menu-option {
   margin: 30px;
   font-size: 50px;
 }
 
 #root #game-wrapper #menu-list .selected {
-  color: #8DC63F;
+  color: #8DC53E;
 }
 
 #root #scoreboard-container{

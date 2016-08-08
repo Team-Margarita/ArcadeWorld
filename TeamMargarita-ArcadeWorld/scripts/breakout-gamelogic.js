@@ -27,8 +27,8 @@ function breakOut() {
   //coordinates and speed of paddle and ball
   let x = paddleX + paddleWidth/2,
       y = canvas.height - (paddleHeight + squareSide),
-      dx = 3,
-      dy = -3;
+      dx = 3.5,
+      dy = -3.5;
   //keys states
   let rightPressed = false,
       leftPressed = false,
@@ -308,11 +308,11 @@ function breakOut() {
   function randomSquareDirection(){
     let leftOrRight = Math.random() < 0.5 ? true : false;
     if(leftOrRight){
-      dx = 3;
-      dy = -3;
+      dx = 3.5;
+      dy = -3.5;
     }else{
-      dx = -3;
-      dy = -3;
+      dx = -3.5;
+      dy = -3.5;
     }
   }
 
@@ -339,8 +339,8 @@ function breakOut() {
     //coordinates and speed of paddle and ball
     x = paddleX + paddleWidth/2;
     y = canvas.height - (paddleHeight + squareSide);
-    dx = 3;
-    dy = -3;
+    dx = 3.5;
+    dy = -3.5;
     //building blocks
     blocks = [];
     for(let c = 0; c<blockColumns; c++) {
