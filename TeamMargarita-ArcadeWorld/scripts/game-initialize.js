@@ -1,5 +1,5 @@
 function beginGame(){
-  breakOut(); //CALL YOUR GAME FOR TESTING
+  breakOut();
 }
 
 function initializeGame(){
@@ -12,9 +12,6 @@ function initializeGame(){
              .text('000');
   var $player2Score = $('<span/>').attr('id', 'player2-score')
              .text('000');
-  //var $svg = $('<svg/>').attr('id', 'score-board')
-  //                      .attr('xmlns', 'http://www.w3.org/2000/svg')
-  //                      .css('background-color: blue; width: 600; height: 50');
   $scoreboardContainer.append($player1Score);
   $scoreboardContainer.append($player2Score);
   $scoreboardContainer.append('<svg id="score-board" xmlns="http://www.w3.org/2000/svg">');
@@ -61,7 +58,6 @@ function startScreen(playerId, startPressed){
 }
 
 function endScreen(){
-  console.log('here');
   let canvas = document.getElementById("game-canvas");
   let ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -107,7 +103,6 @@ function endScreen(){
       }
       drawWinner();
       drawInstruction();
-
 
     requestAnimationFrame(loop);
   }

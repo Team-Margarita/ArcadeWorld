@@ -170,14 +170,15 @@ function snake(){
 
 	//keyboard controls
 
-	document.addEventListener("keydown", keycontrol);
-	function keycontrol(e) {
-    let key = e.which || e.keyCode || 0;
-		if (key == "37" && d != "right" && startPressed) d = "left";
-		else if (key == "38" && d != "down" && startPressed) d = "up";
-		else if (key == "39" && d != "left" && startPressed) d = "right";
-		else if (key == "40" && d != "up" && startPressed) d = "down";
-    if(key == '13' && !startPressed) startPressed = true;
-	}
+	 document.addEventListener("keydown", keycontrol);
+  	function keycontrol(e) {
+      let key = e.which || e.keyCode || 0;
+
+      if(key == '13' && !startPressed) startPressed = true;
+  		if (key == "37" && d != "right" && startPressed) d = "left";
+  		else if (key == "38" && d != "down" && startPressed) d = "up";
+  		else if (key == "39" && d != "left" && startPressed) d = "right";
+  		else if (key == "40" && d != "up" && startPressed) d = "down"
+  	}
   }
 }

@@ -1,59 +1,102 @@
 function mainMenu(inGame){
   var selectedOption = 1;
   var isInGame = false;
+  var isInMenuOption = false;
 
   var $root = $('#root');
-  $root.empty();
-  $root.append('<div id="game-wrapper"/>');
 
-  var $wrapper = $('#game-wrapper');
+  createMenu();
 
-  var $logo = $('<img/>').attr('id', 'main-logo')
-                         .attr('src', './images/arcade-world-logo.png');
-  $wrapper.append($logo);
-  $wrapper.append('<ul id="menu-list"/>');
+  $('body').on('keydown', updateSelectedItem);
 
-  //Setting up the menu
-  var $menu = $('#menu-list');
+  setTimeout(eventEnter, 500); //setting a small delay for event listener
 
-  var menuOptions = 3;
-  for (var i = 1; i <= menuOptions; i++) {
-    var $option = $('<div/>').addClass('menu-option')
-               .attr('data-option', i);
-    $menu.append($option);
+  function eventEnter(){
+  $('body').on('keyup', enterSelectedItem);
   }
-
-  $('[data-option="1"]').text('Start').addClass('selected');
-  $('[data-option="2"]').text('Instructions');
-  $('[data-option="3"]').text('About');
-
-$('body').on('keydown', updateSelectedItem);
-$('body').on('keypress', enterSelectedItem);
-  //Events
-  function enterSelectedItem(e){
-    //13 - enter
-    if(e.keyCode === 13 && !isInGame)
-    {
-      if(selectedOption === 1){
-        isInGame = true;
-        initializeGame();
+    //Function for entering in options
+    function enterSelectedItem(e){
+      let key = e.which || e.keyCode || 0;
+      //13 - enter
+      if(key === 13 && !isInGame)
+      {
+        if(selectedOption === 1){
+          isInGame = true;
+          initializeGame();
+        }
+        if(selectedOption === 2){
+          createInstructions();
+          isInMenuOption = true;
+        }
+        if(selectedOption === 3){
+          createAbout();
+          isInMenuOption = true;
+        }
+      }
+      if(key === 66 && !isInGame && isInMenuOption){
+        selectedOption = 1;
+        isInMenuOption = false;
+        createMenu();
       }
     }
-  }
-  function updateSelectedItem(e){
 
+    //Function for changing current option
+    function updateSelectedItem(e){
+        let key = e.which || e.keyCode || 0;
         var currentItemOption = '[data-option="' + selectedOption + '"]';
 
-          $('[data-option]').removeClass('selected');
-        //40 - down; 38 - up
-        if(e.keyCode === 40 && !isInGame){
-          selectedOption === 3 ? (selectedOption = 1) : (selectedOption+=1);
-        }else if(e.keyCode === 38 && !isInGame)
-        {
-          selectedOption === 1 ? (selectedOption = 3) : (selectedOption-=1);
-        }
+        $('[data-option]').removeClass('selected');
 
-        currentItemOption = '[data-option="' + selectedOption + '"]';
-        $(currentItemOption).addClass('selected');
-  }
+          //40 - down; 38 - up
+          if(key === 40 && !isInGame){
+            selectedOption === 3 ? (selectedOption = 1) : (selectedOption+=1);
+          }else if(key === 38 && !isInGame)
+          {
+            selectedOption === 1 ? (selectedOption = 3) : (selectedOption-=1);
+          }
+
+          currentItemOption = '[data-option="' + selectedOption + '"]';
+          $(currentItemOption).addClass('selected');
+    }
+
+    //Function for creating menu page
+    function createMenu(){
+      $root.empty();
+      $root.append('<div id="game-wrapper"/>');
+
+      var $wrapper = $('#game-wrapper');
+
+      var $logo = $('<img/>').attr('id', 'main-logo')
+                             .attr('src', './images/arcade-world-logo.png');
+      $wrapper.append($logo);
+      $wrapper.append('<ul id="menu-list"/>');
+
+      //Setting up the menu
+      var $menu = $('#menu-list');
+
+      var menuOptions = 3;
+      for (var i = 1; i <= menuOptions; i++) {
+        var $option = $('<div/>').addClass('menu-option')
+                   .attr('data-option', i);
+        $menu.append($option);
+      }
+
+      $('[data-option="1"]').text('Start').addClass('selected');
+      $('[data-option="2"]').text('Instructions');
+      $('[data-option="3"]').text('About');
+    }
+
+    //Function for creating instructions page
+    function createInstructions(){
+      var $wrapper = $('#game-wrapper');
+      $wrapper.empty();
+      //TODO: Implementation
+    }
+
+    //Function for creating about page
+    function createAbout(){
+        var $wrapper = $('#game-wrapper');
+        $wrapper.empty();
+        //TODO: Implementation
+    }
 }

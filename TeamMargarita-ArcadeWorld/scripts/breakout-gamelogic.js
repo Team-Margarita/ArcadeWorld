@@ -1,18 +1,18 @@
 'use strict';
 
 function breakOut() {
-  let playerId = 1;
   let canvas = document.getElementById("game-canvas");
   let ctx = canvas.getContext("2d");
   //general
-  let score = 0,
+  let playerId = 1,
+      score = 0,
       lives = 6;
   //paddle
-  let paddleHeight = 20,
+  let paddleHeight = 25,
       paddleWidth = 90,
       paddleX = (canvas.width-paddleWidth)/2;
   //ball
-  let squareSide = 20;
+  let squareSide = 25;
   //block
   let blockRows = 6,
       blockColumns = 5,
@@ -180,8 +180,7 @@ function breakOut() {
                 ctx.fillStyle = "#BBBBBB";
               }
               ctx.fill();
-              ctx.closePath()
-
+              ctx.closePath();
     }
   }
   function drawBlocks() {
@@ -225,7 +224,6 @@ function breakOut() {
       ctx.textAlign = 'center';
       ctx.fillText("Player " + playerId, canvas.width/2, 35);
   }
-
   function drawUpperBound(){
     ctx.beginPath();
     ctx.moveTo(0, blockOffsetTop - 10);
@@ -234,7 +232,7 @@ function breakOut() {
     ctx.stroke();
   }
 
-  //DRAW LOOP
+  //GAME LOOP
   function gameLoop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if(!startPressed){
@@ -268,8 +266,8 @@ function breakOut() {
               }
               if(lives === 3 && playerId === 1){
                 endTurn();
-              }else
-              {
+              }
+              else{
                 if(lives > 3 && lives < 6){
                   hearts[lives-3].status = 0;
                 }else if(lives < 4 && lives > 0){
@@ -278,11 +276,7 @@ function breakOut() {
                   paddleX = (canvas.width-paddleWidth)/2;
                   x = paddleX + paddleWidth/2;
                   y = canvas.height - (paddleHeight + squareSide + 10);
-                  let leftOrRight = Math.random() < 0.5 ? true : false;
-                  if(leftOrRight){
-                  dx = 3;
-                  dy = -3;
-                }else{}
+                  randomSquareDirection();
               }
             }
           }
@@ -300,23 +294,32 @@ function breakOut() {
       if(nextLevelCalled){
         return;
       }
-      }
+    }
       requestAnimationFrame(gameLoop);
   }
 
   //SPEED UP EVERY 10 SEC
   setInterval(speedUp, 10000);
-
   function speedUp(){
     dx *= 1.1;
     dy *= 1.1;
+  }
+
+  function randomSquareDirection(){
+    let leftOrRight = Math.random() < 0.5 ? true : false;
+    if(leftOrRight){
+      dx = 3;
+      dy = -3;
+    }else{
+      dx = -3;
+      dy = -3;
+    }
   }
 
   function callNextLvl(){
     updateScoreBoard(playerId, score);
     initializeNewLevel();
     snake();
-
   }
 
   function endTurn(){
@@ -364,5 +367,4 @@ function breakOut() {
   if(nextLevelCalled){
     return;
   }
-
 }
