@@ -317,13 +317,13 @@ function breakOut() {
   }
 
   function callNextLvl(){
-    updateScoreBoard(playerId, score);
+    updateScoreBoard(playerId, score * 2);
     initializeNewLevel();
     snake();
   }
 
   function endTurn(){
-      updateScoreBoard(playerId, score);
+      updateScoreBoard(playerId, score * 2);
       reset();
   }
 

@@ -23,6 +23,10 @@ body {
   color: #FFFFFF;
 }
 
+#root #scoreboard-container svg{
+  overflow: hidden; /* used for fixing bug in IE scoreboard overflow*/
+}
+
 #root #game-wrapper #main-logo {
   margin: 75px 0px 30px 0px;
   width: 500px;
@@ -33,6 +37,44 @@ body {
   width: 500px;
 }
 
+#root #game-wrapper .gameinstructions-container{
+  width: 600px;
+  height: 200px;
+  margin: auto;
+  padding: 20px;
+  text-align: left;
+  font-size: 20px;
+  word-spacing: 10px;
+}
+
+#root #game-wrapper #instructions-title{
+  font-size: 60px;
+  margin: 30px 0px 40px 0px;
+}
+
+#root #game-wrapper .gameinstructions-container div{
+  display: block;
+  float: left;
+  width: 340px;
+}
+
+#root #game-wrapper .gameinstructions-container img{
+  width: 200px;
+  border: 1px solid #FFFFFF;
+  float: left;
+  margin-right: 20px;
+}
+
+#root #game-wrapper .gameinstructions-container span{
+  color: #888888;
+}
+
+#root #game-wrapper .gameinstructions-container .game-title
+{
+  color: #8DC53E;
+  font-size: 34px;
+}
+
 #root #game-wrapper #description-container {
   margin: 0 auto;
   text-align: left;
@@ -41,10 +83,13 @@ body {
   width: 500px;
 }
 
-#root #game-wrapper #description-container #instructions{
+#root .instructions{
+  font-size: 24px;
   text-align: center;
   color: #888888;
-  margin-top: 80px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  word-spacing: 5px;
 }
 
 #root #game-wrapper #description-container span{

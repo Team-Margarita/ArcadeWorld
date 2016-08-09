@@ -88,9 +88,68 @@ function mainMenu(inGame){
 
     //Function for creating instructions page
     function createInstructions(){
+
+      var data = {
+        games: [
+           {
+             src: './images/breakoutgame-instr.jpg',
+             name: 'breakout',
+             players: '1',
+             description: 'Destroy as many blocks as possible',
+             points: 'x 2',
+             keys: 'LEFT RIGHT'
+           },
+           {
+             src: './images/snake-instr.jpg',
+             name: 'snake',
+             players: '1',
+             description: 'Collect as much food as possible',
+             points: 'x 1',
+             keys: 'UP DOWN LEFT RIGHT'
+           },
+           {
+             src: './images/player1_victory.png',
+             name: 'ping pong',
+             players: '2',
+             description: 'Score 10 points against your opponent',
+             points: 'x 5',
+             keys: '</br>UP DOWN</br>W S'
+           },
+           {
+             src: './images/player1_victory.png',
+             name: 'tron',
+             players: '2',
+             description: 'Achieve 3 wins against your opponent',
+             points: 'x 20',
+             keys: '</br>UP DOWN LEFT RIGHT</br>W S A D'
+           }
+         ]
+      };
+
       var $wrapper = $('#game-wrapper');
       $wrapper.empty();
-      //TODO: Implementation
+
+      var instrTemplate = `<div id='instructions-title'>INSTRUCTIONS</div>
+      {{#each games}}
+        <div class = "gameinstructions-container">
+          <img src="{{src}}" />
+          <div class = 'game-title'>{{name}}</div>
+          <div class = 'game-description'><span>Description</span>: {{description}}</div>
+          <div class = 'game-keys'><span>Keys</span>: {{{keys}}}</div>
+          <div class = 'game-points'><span>Points</span>: {{points}}</div>
+          <div class = 'game-players'><span>Players</span>: {{players}}</div>
+        </div>
+      {{/each}}
+      `;
+
+      var template = Handlebars.compile(instrTemplate);
+
+      $wrapper.html(template(data));
+
+      var $instrDiv = $('<div/>').append('<span/>').attr('class', 'instructions').text("Press 'B' to return to main menu.");
+
+      $wrapper.append($instrDiv);
+
     }
 
     //Function for creating about page
@@ -102,9 +161,9 @@ function mainMenu(inGame){
                                .attr('src', './images/team-margarita-logo.png');
         var $description = $('<div/>').attr('id', 'description-container');
         var $firstDiv = $('<div/>').html('Welcome to <span>Arcade World</span> - A place where you and your friends can compete against each other.' +
-        '<br/>Test your gaming skills on the arcade fields and proove your dominance.');
+        '<br/>Test your gaming skills on the arcade fields and prove your dominance.');
         var $secondDiv = $('<div/>').html('<div><br/>This is an educational team work project for the <span>JavaScript UI and DOM</span> course in <span>Telerik Academy</span>.');
-        var $thirdDiv = $('<div/>').append('<span/>').attr('id', 'instructions').text("Press 'B' to return to main menu.");
+        var $thirdDiv = $('<div/>').append('<span/>').attr('class', 'instructions').text("Press 'B' to return to main menu.");
 
         $description.append($firstDiv);
         $description.append($secondDiv);

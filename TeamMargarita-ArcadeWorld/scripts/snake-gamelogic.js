@@ -59,12 +59,6 @@ function snake(){
 		//ctx.fillStyle = "rgba(0, 0, 200, 0)";
 		//ctx.fillRect(0, 0, w, h);
 
-    ctx.beginPath();
-    ctx.moveTo(0, 40);
-    ctx.lineTo(600, 40);
-    ctx.strokeStyle= '#FFFFFF';
-    ctx.stroke();
-
 		var nx = snake_array[0].x;
 		var ny = snake_array[0].y;
 
@@ -112,10 +106,10 @@ function snake(){
 		paint_food(food.x, food.y);
 
     function drawScore() {
-        ctx.font = "28px ArcadeFont";
-        ctx.fillStyle = "#FFFFFF";
-        ctx.textAlign = 'left';
-        ctx.fillText("Score  " + score, 10, 28);
+      ctx.font = "32px ArcadeFont";
+      ctx.fillStyle = "#FFFFFF";
+      ctx.textAlign = 'left';
+      ctx.fillText("Score  "+score, 10, 35);
     }
 
     function drawPlayerOnTurn() {
@@ -129,8 +123,18 @@ function snake(){
         ctx.fillText("Player " + playerId, canvas.width/2, 35);
     }
 
+    function drawUpperBound(){
+      ctx.beginPath();
+      ctx.moveTo(0, 50);
+      ctx.lineTo(600, 50);
+      ctx.strokeStyle= '#FFFFFF';
+      ctx.stroke();
+    }
+
     drawScore();
     drawPlayerOnTurn();
+    drawUpperBound();
+
 	}
   function paint_food(x, y){
     ctx.fillStyle = '#FFFFFF';
