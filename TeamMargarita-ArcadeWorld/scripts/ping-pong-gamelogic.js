@@ -9,8 +9,8 @@ function pingPong(){
   let canvas = document.getElementById("game-canvas");
   let ctx = canvas.getContext("2d");
 
-  let playerId = 1;
-  let score = 0;
+  let firstPLayerScore = 0,
+      secondPlayerScore = 0;
 
   // keys states
   let startPressed = false,
@@ -35,7 +35,8 @@ function pingPong(){
   let ballX = canvas.width / 2,
       ballY = canvas.height / 2;
 
-  let direction = 'right';
+  let ballDeltaX = 3,
+      ballDeltaY = 3;
 
 
   // draw functions
@@ -55,13 +56,22 @@ function pingPong(){
     ctx.closePath();
   }  
 
-  function drawScore() {
+  function drawFirstPlayerScore() {
       ctx.font = "32px ArcadeFont";
       ctx.fillStyle = "#FFFFFF";
       ctx.textAlign = 'left';
-      ctx.fillText("Score  "+score, 10, 35);
+      ctx.fillText("FirstPlayerScore  " + firstPLayerScore, 10, 35);
+      
   }
-  function drawPlayerOnTurn() {
+
+  function drawSecondPlayerScore() {
+      ctx.font = "32px ArcadeFont";
+      ctx.fillStyle = "#FFFFFF";
+      ctx.textAlign = 'left';
+      ctx.fillText("SecondPlayerScore  " + secondPlayerScore, canvas.width / 2 + 50, 35);
+  }
+
+  function drawPrepeareMsg() {
       ctx.font = "32px ArcadeFont";
       if(playerId === 1){
       ctx.fillStyle = '#DD0000';
@@ -69,7 +79,7 @@ function pingPong(){
       ctx.fillStyle = '#0000DD';
       }
       ctx.textAlign = 'center';
-      ctx.fillText("Player " + playerId, canvas.width/2, 35);
+      ctx.fillText("Preapare" , canvas.width/2, 35);
   }
   function drawUpperBound(){
     ctx.beginPath();
@@ -102,7 +112,6 @@ function pingPong(){
         wKeyPressed = false;
         break;
     }
-    console.log(key);
   }
 
   function onKeyUp(e){
@@ -146,17 +155,54 @@ function pingPong(){
       }
     }
   }
+
+  function updateBall(){
+    if(ballDeltaY + ballY > canvas.height - 5 || ballDeltaY + ballY < 60){
+      ballDeltaY *= -1;     
+    }   
+    ballY += ballDeltaY;
+    ballX += ballDeltaX;
+  }
+
+
+  // check for collision with player paddle 
+  function collisionCheck(){
+    if(ballX + ballDeltaX < paddleWidh + 10 || ballX + ballDeltaX > canvas.width - paddleWidh - 10){
+      ballDeltaX *= -1;
+      if(((ballY + ballDeltaY < firstPlayerPaddleY || 
+         ballY + ballDeltaY > firstPlayerPaddleY + paddleHeight) && ballDeltaX > 0) ||
+         ((ballY + ballDeltaY < secondPlayerPaddleY || 
+         ballY + ballDeltaY > secondPlayerPaddleY + paddleHeight)  && ballDeltaX < 0)){
+           ballDeltaX *= -1;
+      }
+    }
+
+    if(ballX + ballDeltaX < 0){
+      secondPlayerScore += 1;
+      ballX = canvas.width / 2;
+      ballY = canvas.height /2;
+    }
+    else if(ballX + ballDeltaX > canvas.width){
+      firstPLayerScore += 1;
+      ballX = canvas.width / 2;
+      ballY = canvas.height /2;
+    }
+  }
   
    function TestFunction(){
       ctx.clearRect(0, 0, 600, 600);
+      //drawPrepeareMsg();
+      drawFirstPlayerScore();
+      drawSecondPlayerScore();
+      drawUpperBound();      
       updatePaddleCords();
-      drawPlayerOnTurn();
-      drawScore();
-      drawUpperBound();
+      collisionCheck();
+      updateBall()
       drawBall();
       drawPaddle(firstPLayerpaddleX,firstPlayerPaddleY);
       drawPaddle(secondPlayerPaddleX, secondPlayerPaddleY);
    }
+  
   
    setInterval(TestFunction, 5);
 }
