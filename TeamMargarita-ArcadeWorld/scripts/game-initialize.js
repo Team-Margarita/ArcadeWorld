@@ -1,5 +1,5 @@
 function beginGame(){
-  pingPong();
+  breakOut();
 }
 
 function initializeGame(){
