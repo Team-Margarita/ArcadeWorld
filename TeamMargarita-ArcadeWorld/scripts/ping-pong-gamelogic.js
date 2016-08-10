@@ -36,7 +36,7 @@ function pingPong(){
       ballY = canvas.height / 2;
 
   let ballDeltaX = 3,
-      ballDeltaY = 3;
+      ballDeltaY = 3.5;
 
 
   // draw functions
@@ -60,7 +60,7 @@ function pingPong(){
       ctx.font = "32px ArcadeFont";
       ctx.fillStyle = "#FFFFFF";
       ctx.textAlign = 'left';
-      ctx.fillText("FirstPlayerScore  " + firstPLayerScore, 10, 35);
+      ctx.fillText("First  Player  Score: " + firstPLayerScore, 10, 35, 250);
       
   }
 
@@ -68,8 +68,8 @@ function pingPong(){
       ctx.font = "32px ArcadeFont";
       ctx.fillStyle = "#FFFFFF";
       ctx.textAlign = 'left';
-      ctx.fillText("SecondPlayerScore  " + secondPlayerScore, canvas.width / 2 + 50, 35);
-  }
+      ctx.fillText("Second  Player  Score: " + secondPlayerScore, canvas.width / 2 + 30, 35, 250);
+  } 
 
   function drawPrepeareMsg() {
       ctx.font = "32px ArcadeFont";
