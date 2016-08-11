@@ -1,7 +1,9 @@
 'use strict';
 function tron(){
 
-  const cellDimension = 5;
+  const cellDimension = 10;
+  const pointPerWin = 20;
+  const speedIndex = 100;
 
   function createPoint (x, y){
     var point = {
@@ -10,7 +12,6 @@ function tron(){
     };
     return point;
   }
-//"87", "90", "65", "83"
 
     var keysToIndex =  {
       "38" : "up",
@@ -23,8 +24,7 @@ function tron(){
       "83" : "right"
     };
 
-
-  function createPlayer (startX, startY, playerColor, playerDirection, initialscore) {
+  function createPlayer (startX, startY, playerColor, playerDirection, initialWins) {
 
     function positionIsInHistory(position, history) {
       for (var i=0; i<history.length; i+=1) {
@@ -42,7 +42,7 @@ function tron(){
       color : playerColor,
       directionPair : playerDirection,
       //keys : playerKeys,
-      score : initialscore,
+      wins : initialWins,
       draw : function() {
         let canvas = document.getElementById("game-canvas");
         let ctx = canvas.getContext("2d");
@@ -172,7 +172,7 @@ function tron(){
     //initializeNewLevel();
     document.addEventListener("keydown", onKeyDown);
 
-    setInterval(tronGameLoop, 500, player1, player2);
+    setInterval(tronGameLoop, speedIndex, player1, player2);
   }
 
 
