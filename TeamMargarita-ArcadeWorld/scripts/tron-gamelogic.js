@@ -100,19 +100,29 @@ function tron(){
   }
 
   function tronGameLoop (player1, player2) {
-    player1.draw();
-    player2.draw();
-    if (player1.hasCollided(player2)) {
-      drawBoom(player1.position);
-      return;
-    }
-    if (player2.hasCollided(player1)) {
-      drawBoom(player2.position);
-      return;
-    }
-    player1.move();
-    player2.move();
-    requestAnimationFrame(tronGameLoop(player1, player2));
+    setTimeout(function() {
+        player1.draw();
+        player2.draw();
+        if (player1.hasCollided(player2)) {
+          drawBoom(player1.position);
+          return;
+        }
+        if (player2.hasCollided(player1)) {
+          drawBoom(player2.position);
+          return;
+        }
+
+        // var time = new Date().getTime();
+        // var delay = time + 500;
+        // while (delay-time >=0) {
+        //   var time = new Date().getTime();
+        // }
+
+        player1.move();
+        player2.move();
+
+        requestAnimationFrame(tronGameLoop(player1, player2));
+      }, 300);
   }
 
   function playTronGame() {
