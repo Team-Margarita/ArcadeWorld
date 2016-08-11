@@ -67,7 +67,6 @@ function tron(){
         ctx.fillRect(this.position.x * cellDimension, this.position.y * cellDimension, cellDimension, cellDimension);
         ctx.fill();
         ctx.closePath();
-        console.log(this.position.x+","+this.position.y+","+cellDimension+","+this.playerColor);
       },
       hasCollided : function(otherPlayer) {
         let canvas = document.getElementById("game-canvas");
@@ -99,8 +98,27 @@ function tron(){
     ctx.closePath();
   }
 
+  // function tronGameLoop (player1, player2) {
+  //   setTimeout(function() {
+  //       player1.draw();
+  //       player2.draw();
+  //       if (player1.hasCollided(player2)) {
+  //         drawBoom(player1.position);
+  //         return;
+  //       }
+  //       if (player2.hasCollided(player1)) {
+  //         drawBoom(player2.position);
+  //         return;
+  //       }
+  //
+  //       player1.move();
+  //       player2.move();
+  //
+  //       requestAnimationFrame(tronGameLoop(player1, player2));
+  //     }, 300);
+  // }
+
   function tronGameLoop (player1, player2) {
-    setTimeout(function() {
         player1.draw();
         player2.draw();
         if (player1.hasCollided(player2)) {
@@ -112,22 +130,28 @@ function tron(){
           return;
         }
 
-        // var time = new Date().getTime();
-        // var delay = time + 500;
-        // while (delay-time >=0) {
-        //   var time = new Date().getTime();
-        // }
-
         player1.move();
         player2.move();
+        //setTimeout(tronGameLoop (player1, player2), 500);
 
-        requestAnimationFrame(tronGameLoop(player1, player2));
-      }, 300);
+        //requestAnimationFrame(tronGameLoop(player1, player2));
   }
 
   function playTronGame() {
+    function onKeyDown(event){
+                    //let key = event.which || event.keyCode || 0;
+                    let key = event.keyCode;
+                    //if (player1.keys.indexOf(key)>=0)
+                    if (player1.keys[key]!=undefined) {
+                      player1.direction = player1.keys[key];
+                    }
+                    // else if (player2.keys.indexOf(key)>=0)
+                    if (player2.keys[key]!=undefined) {
+                      player2.direction = player2.keys[key];
+                    }
+                    //gameStarted = key==="13";
+    }
 
-    initializeNewLevel();
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
 
@@ -147,24 +171,28 @@ function tron(){
                               player2Keys,
                               0);
     //var gameStarted = false;
-    document.addEventListener("keydown", function(event){
-                    let key = event.which || event.keyCode || 0;
-                    //if (player1.keys.indexOf(key)>=0){
-                    if (player1.keys[key]!=null) {
+    function onKeyDown(event){
+                    //let key = event.which || event.keyCode || 0;
+                    let key = event.keyCode;
+                    console.log(key);
+                    //if (player1.keys.indexOf(key)>=0)
+                    if (player1.keys[key]!=undefined) {
                       player1.direction = player1.keys[key];
                     }
-                    // else if (player2.keys.indexOf(key)>=0) {
-                    if (player2.keys[key]!=null) {
+                    // else if (player2.keys.indexOf(key)>=0)
+                    if (player2.keys[key]!=undefined) {
                       player2.direction = player2.keys[key];
                     }
                     //gameStarted = key==="13";
     }
-     , false);
 
-    tronGameLoop(player1, player2);
+    initializeNewLevel();
+    document.addEventListener("keydown", onKeyDown(event, player1, player2) );
+
+    setInterval(tronGameLoop, 500, player1, player2);
   }
 
-  {
+
     playTronGame();
-  }
+
 }
