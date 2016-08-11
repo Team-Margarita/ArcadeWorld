@@ -78,8 +78,8 @@ function tron(){
         let canvas = document.getElementById("game-canvas");
         let ctx = canvas.getContext("2d");
         var playerHitHimself = positionIsInHistory(this.position, this.history);
-        var playerHitTheWalls = this.position.x<=0||this.position.x>=canvas.width
-                              || this.position.y<=0||this.position.y>=canvas.height;
+        var playerHitTheWalls = this.position.x<=0||this.position.x>=canvas.width/cellDimension
+                              || this.position.y<=0||this.position.y>=canvas.height/cellDimension;
         var playerHitTheOtherPlayer = positionIsInHistory(this.position, otherPlayer.history)
                 ||((this.position.x===otherPlayer.position.x)&&(this.position.y===otherPlayer.position.y));
         return playerHitHimself || playerHitTheWalls || playerHitTheOtherPlayer;
