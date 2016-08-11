@@ -10,37 +10,21 @@ function tron(){
     };
     return point;
   }
+//"87", "90", "65", "83"
 
-  function keysToIndex(keyup, keydown, keyleft, keyright) {
-    var keys =  {
-      keyup : "up",
-      keydown : "down",
-      keyleft : "left",
-      keyright : "right"
+    var keysToIndex =  {
+      "38" : "up",
+      "40" : "down",
+      "37" : "left",
+      "39" : "right",
+      "87" : "up",
+      "90" : "down",
+      "65" : "left",
+      "83" : "right"
     };
-    return keys;
-  }
 
-  let direction = {
-    "up" : {
-      x : 0,
-      y : -1
-    },
-    "down" : {
-      x : 0,
-      y : 1
-    },
-    "left" : {
-      x : -1,
-      y : 0
-    },
-    "right" : {
-      x : 1,
-      y : 0
-    }
-  }
 
-  function createPlayer (startX, startY, playerColor, playerDirection, playerKeys, initialscore) {
+  function createPlayer (startX, startY, playerColor, playerDirection, initialscore) {
 
     function positionIsInHistory(position, history) {
       for (var i=0; i<history.length; i+=1) {
@@ -57,7 +41,7 @@ function tron(){
       history : [],
       color : playerColor,
       directionPair : playerDirection,
-      keys : playerKeys,
+      //keys : playerKeys,
       score : initialscore,
       draw : function() {
         let canvas = document.getElementById("game-canvas");
@@ -119,45 +103,74 @@ function tron(){
 
   function playTronGame() {
 
-
+    var direction = {
+      "up" : {
+        x : 0,
+        y : -1
+      },
+      "down" : {
+        x : 0,
+        y : 1
+      },
+      "left" : {
+        x : -1,
+        y : 0
+      },
+      "right" : {
+        x : 1,
+        y : 0
+      }
+    }
 
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
 
-    var player1Keys = keysToIndex("87", "90", "65", "83");
+    //var player1Keys = keysToIndex("87", "90", "65", "83");
     var player1 = createPlayer(canvas.width/3/cellDimension,
                               canvas.height/2/cellDimension,
                               "#FEFF49",
                               direction.right,
-                              player1Keys,
+    //                          player1Keys,
                               0);
 
-    var player2Keys = keysToIndex (38, 40, 37, 39);
+    //var player2Keys = keysToIndex ("38", "40", "37", "39");
     var player2 = createPlayer(canvas.width/3*2/cellDimension,
                               canvas.height/2/cellDimension,
                               "#00FF40",
                               direction.left,
-                              player2Keys,
+    //                          player2Keys,
                               0);
-    //var gameStarted = false;
-    function onKeyDown(event){
+
+     function onKeyDown(e) {
                     //let key = event.which || event.keyCode || 0;
-                    let key = event.keyCode;
-                    console.log(key+"");
-                    console.log(player1.keys[key.toString()]);
-                    //if (player1.keys.indexOf(key)>=0)
-                    if (player1.keys[key.toString()]!=undefined) {
-                      player1.direction = direction[player1.keys[key]];
+                    //"87", "90", "65", "83"
+                    let key = e.keyCode;
+                    console.log(key);
+                    console.log(direction[keysToIndex[key]]);
+                    switch (key) {
+                      case 87 :
+                      case 90 :
+                      case 65 :
+                      case 83 :
+                          player1.directionPair = direction[keysToIndex[key]];
+                          break;
+                      case 38 :
+                      case 40 :
+                      case 37 :
+                      case 39 :
+                          player2.directionPair = direction[keysToIndex[key]];
+                          break;
                     }
-                    // else if (player2.keys.indexOf(key)>=0)
-                    if (player2.keys[key.toString()]!=undefined) {
-                      player2.direction = direction[player2.keys[key+""]];
-                    }
-                    //gameStarted = key==="13";
+                    // if (player1.keys[key.toString()]!=undefined) {
+                    //   player1.direction = direction[player1.keys[key]];
+                    // }
+                    // if (player2.keys[key.toString()]!=undefined) {
+                    //   player2.direction = direction[player2.keys[key+""]];
+                    // }
     }
 
     //initializeNewLevel();
-    document.addEventListener("keydown", onKeyDown );
+    document.addEventListener("keydown", onKeyDown);
 
     setInterval(tronGameLoop, 500, player1, player2);
   }
