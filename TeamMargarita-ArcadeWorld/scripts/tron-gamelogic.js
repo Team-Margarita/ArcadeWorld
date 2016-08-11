@@ -2,8 +2,8 @@
 function tron(){
 
   const cellDimension = 10;
-  const pointPerWin = 20;
-  const speedIndex = 100;
+  const pointsPerWin = 20;
+  const speedIndex = 300;
 
   function createPoint (x, y){
     var point = {
@@ -13,15 +13,38 @@ function tron(){
     return point;
   }
 
+  function waitForKey(){
+    var key=0;
+
+    document.addEventListener('keydown', keyDownAny);
+    function keyPressed(e){
+      key = e.keyCode;
+      console.log(key);
+    }
+    while(!key)
+      {}
+    document.removeEventListener('keypress', keyPressed);
+  }
+
+  function printOnCanvas(textToPrint) {
+    let canvas = document.getElementById("game-canvas");
+    let ctx = canvas.getContext("2d");
+
+    ctx.font = "24px ArcadeFont";
+    ctx.fillStyle = '#888888';
+    ctx.textAlign = 'center';
+    ctx.fillText(textToPrint, canvas.width/2, canvas.height/2);
+  }
+
   var keysToIndex =  {
     "38" : "up",
     "40" : "down",
     "37" : "left",
     "39" : "right",
     "87" : "up",
-    "90" : "down",
+    "83" : "down",
     "65" : "left",
-    "83" : "right"
+    "68" : "right"
   };
 
   function createPlayer (startX, startY, playerColor, playerDirection, initialWins) {
@@ -76,20 +99,27 @@ function tron(){
     const boomH = 50;
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
-    let boom = new Image();
-    boom.src = './images/boom.png';
-    ctx.drawImage(boom, point.x*cellDimension, point.y*cellDimension, boomW, boomH);
-    // ctx.beginPath();
-    // ctx.fillStyle = '#FF0000';
-    // ctx.arc(point.x*cellDimension, point.y*cellDimension, cellDimension+1,0,2*Math.PI);
-    // ctx.fill();
-    // ctx.closePath();
+    //let boom = new Image();
+    //boom.src = './images/boom.png';
+    //ctx.drawImage(boom, point.x*cellDimension, point.y*cellDimension, boomW, boomH);
+    ctx.beginPath();
+    ctx.fillStyle = '#FF0000';
+    ctx.arc(point.x*cellDimension, point.y*cellDimension, cellDimension*2,0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
   }
 
   function tronGameLoop (player1, player2) {
         player1.paint();
         player2.paint();
-        if (player1.hasCollided(player2)) {
+        player1.move();
+        player2.move();
+
+        if (player1.hasCollided(player2)&&player2.hasCollided(player1)) {
+          paintBoom(player1.position);
+        }
+        else if (player1.hasCollided(player2)) {
+          player2.wins += 1;
           paintBoom(player1.position);
           return;
         }
@@ -98,14 +128,12 @@ function tron(){
           return;
         }
 
-        player1.move();
-        player2.move();
         //setTimeout(tronGameLoop (player1, player2), 500);
 
         //requestAnimationFrame(tronGameLoop(player1, player2));
   }
 
-  function playTronGame() {
+  function playTronGame(wins1, wins2) {
 
     var direction = {
       "up" : {
@@ -135,7 +163,7 @@ function tron(){
                               "#FEFF49",
                               direction.right,
     //                          player1Keys,
-                              0);
+                              wins1);
 
     //var player2Keys = keysToIndex ("38", "40", "37", "39");
     var player2 = createPlayer(canvas.width/3*2/cellDimension,
@@ -143,7 +171,7 @@ function tron(){
                               "#00FF40",
                               direction.left,
     //                          player2Keys,
-                              0);
+                              wins2);
 
      function onKeyDown(e) {
                     //let key = event.which || event.keyCode || 0;
@@ -153,9 +181,9 @@ function tron(){
                     console.log(direction[keysToIndex[key]]);
                     switch (key) {
                       case 87 :
-                      case 90 :
-                      case 65 :
                       case 83 :
+                      case 65 :
+                      case 68 :
                           player1.directionPair = direction[keysToIndex[key]];
                           break;
                       case 38 :
@@ -173,13 +201,52 @@ function tron(){
                     // }
     }
 
-    //initializeNewLevel();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     document.addEventListener("keydown", onKeyDown);
 
-    setInterval(tronGameLoop, speedIndex, player1, player2);
+    var interval = setInterval(tronGameLoop, speedIndex, player1, player2);
+
+    function tronGameLoop (player1, player2) {
+          player1.paint();
+          player2.paint();
+
+          if (player1.hasCollided(player2)&&player2.hasCollided(player1)) {
+            paintBoom(player1.position);
+            return;
+          }
+          else if (player1.hasCollided(player2)) {
+            paintBoom(player1.position);
+            player2.wins += 1;
+            return;
+          }
+          if (player2.hasCollided(player1)) {
+            paintBoom(player2.position);
+            player1.wins += 1;
+            return;
+          }
+          player1.move();
+          player2.move();
+          // if (player1.hasCollided(player2)||player2.hasCollided(player1)) {
+          //   document.removeEventListener("keydown", onKeyDown);
+          //   if (player1.wins>=3||player2.wins>=3) {
+          //     //final screen with results player__.wins*pointsPerWin;
+          //     var winner = player1.wins>player2.wins ? 1 : 2;
+          //     printOnCanvas("Tron winner is player" + winner);
+          //     //waitForKey();
+          //     clearInterval(interval);
+          //   }
+          //   else {
+          //     printOnCanvas("Press a key to play again");
+          //     //waitForKey();
+          //     clearInterval(interval);
+          //     playTronGame(player1.wins, player2.wins);
+          //   }
+          //
+          // }
+    }
   }
 
 
-    playTronGame();
+    playTronGame(0, 0);
 
 }
