@@ -42,6 +42,15 @@ function tron(){
 
   function createPlayer (startX, startY, playerColor, playerDirection, playerKeys, initialscore) {
 
+    function positionIsInHistory(position, history) {
+      for (var i=0; i<history.length; i+=1) {
+        if ((position.x===history[i].x)&&(position.y===history[i].y)){
+          return true;
+        }
+      }
+      return false;
+    }
+
     var player = {
       //name: name,
       position : createPoint(startX, startY),
@@ -63,16 +72,18 @@ function tron(){
       hasCollided : function(otherPlayer) {
         let canvas = document.getElementById("game-canvas");
         let ctx = canvas.getContext("2d");
-        var playerHitHimself = this.history.indexOf(this.position) >=0;
+        var playerHitHimself = positionIsInHistory(this.position, this.history);
         var playerHitTheWalls = this.position.x<=0||this.position.x>=canvas.width
                               || this.position.y<=0||this.position.y>=canvas.height;
-        var playerHitTheOtherPlayer = otherPlayer.history.indexOf(this.position) >=0
+        var playerHitTheOtherPlayer = positionIsInHistory(this.position, otherPlayer.history)
+                ||((this.position.x===otherPlayer.position.x)&&(this.position.y===otherPlayer.position.y));
         return playerHitHimself || playerHitTheWalls || playerHitTheOtherPlayer;
       },
       move : function () {
-        this.history.push(this.position);
-        this.position.x += this.playerDirection.x;
-        this.position.y += this.playerDirection.y;
+        var oldPosition = createPoint(this.position.x, this.position.y);
+        this.history.push(oldPosition);
+        this.position.x += this.directionPair.x;
+        this.position.y += this.directionPair.y;
       }
     }
     return player;
@@ -93,15 +104,15 @@ function tron(){
     player2.draw();
     if (player1.hasCollided(player2)) {
       drawBoom(player1.position);
-      //return;
+      return;
     }
     if (player2.hasCollided(player1)) {
       drawBoom(player2.position);
-      //return;
+      return;
     }
     player1.move();
     player2.move();
-    requestAnimationFrame(tronGameLoop);
+    requestAnimationFrame(tronGameLoop(player1, player2));
   }
 
   function playTronGame() {
