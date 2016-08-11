@@ -98,26 +98,6 @@ function tron(){
     ctx.closePath();
   }
 
-  // function tronGameLoop (player1, player2) {
-  //   setTimeout(function() {
-  //       player1.draw();
-  //       player2.draw();
-  //       if (player1.hasCollided(player2)) {
-  //         drawBoom(player1.position);
-  //         return;
-  //       }
-  //       if (player2.hasCollided(player1)) {
-  //         drawBoom(player2.position);
-  //         return;
-  //       }
-  //
-  //       player1.move();
-  //       player2.move();
-  //
-  //       requestAnimationFrame(tronGameLoop(player1, player2));
-  //     }, 300);
-  // }
-
   function tronGameLoop (player1, player2) {
         player1.draw();
         player2.draw();
@@ -138,24 +118,13 @@ function tron(){
   }
 
   function playTronGame() {
-    function onKeyDown(event){
-                    //let key = event.which || event.keyCode || 0;
-                    let key = event.keyCode;
-                    //if (player1.keys.indexOf(key)>=0)
-                    if (player1.keys[key]!=undefined) {
-                      player1.direction = player1.keys[key];
-                    }
-                    // else if (player2.keys.indexOf(key)>=0)
-                    if (player2.keys[key]!=undefined) {
-                      player2.direction = player2.keys[key];
-                    }
-                    //gameStarted = key==="13";
-    }
+
+
 
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
 
-    var player1Keys = keysToIndex(87, 90, 65, 83);
+    var player1Keys = keysToIndex("87", "90", "65", "83");
     var player1 = createPlayer(canvas.width/3/cellDimension,
                               canvas.height/2/cellDimension,
                               "#FEFF49",
@@ -171,23 +140,24 @@ function tron(){
                               player2Keys,
                               0);
     //var gameStarted = false;
-    function onKeyDown(event){ 
+    function onKeyDown(event){
                     //let key = event.which || event.keyCode || 0;
                     let key = event.keyCode;
-                    console.log(key);
+                    console.log(key+"");
+                    console.log(player1.keys[key.toString()]);
                     //if (player1.keys.indexOf(key)>=0)
-                    if (player1.keys[key]!=undefined) {
-                      player1.direction = player1.keys[key];
+                    if (player1.keys[key.toString()]!=undefined) {
+                      player1.direction = direction[player1.keys[key]];
                     }
                     // else if (player2.keys.indexOf(key)>=0)
-                    if (player2.keys[key]!=undefined) {
-                      player2.direction = player2.keys[key];
+                    if (player2.keys[key.toString()]!=undefined) {
+                      player2.direction = direction[player2.keys[key+""]];
                     }
                     //gameStarted = key==="13";
     }
 
-    initializeNewLevel();
-    document.addEventListener("keydown", onKeyDown(event, player1, player2) );
+    //initializeNewLevel();
+    document.addEventListener("keydown", onKeyDown );
 
     setInterval(tronGameLoop, 500, player1, player2);
   }
