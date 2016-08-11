@@ -82,7 +82,7 @@ function snake() {
                 if (playerId === 2) {
                     clearInterval(game_loop);
                     initializeNewLevel();
-                    pingPong(); //CALL NEXT GAME
+                    tron(); //CALL NEXT GAME
                 } else {
                     playerId += 1;
                     init();

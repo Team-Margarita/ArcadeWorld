@@ -1,9 +1,12 @@
 'use strict';
 function tron(){
 
-  const cellDimension = 10;
+  const cellDimension = 15;
   const pointsPerWin = 20;
-  const speedIndex = 300;
+  const speedIndex = 100;
+  var isInGame = false;
+  var canvas = document.getElementById("game-canvas");
+  var ctx = canvas.getContext("2d");
 
   function createPoint (x, y){
     var point = {
@@ -19,7 +22,6 @@ function tron(){
     document.addEventListener('keydown', keyDownAny);
     function keyPressed(e){
       key = e.keyCode;
-      console.log(key);
     }
     while(!key)
       {}
@@ -79,7 +81,7 @@ function tron(){
         let ctx = canvas.getContext("2d");
         var playerHitHimself = positionIsInHistory(this.position, this.history);
         var playerHitTheWalls = this.position.x<=0||this.position.x>=canvas.width/cellDimension
-                              || this.position.y<=0||this.position.y>=canvas.height/cellDimension;
+                              || this.position.y<=3||this.position.y>=canvas.height/cellDimension;
         var playerHitTheOtherPlayer = positionIsInHistory(this.position, otherPlayer.history)
                 ||((this.position.x===otherPlayer.position.x)&&(this.position.y===otherPlayer.position.y));
         return playerHitHimself || playerHitTheWalls || playerHitTheOtherPlayer;
@@ -109,29 +111,19 @@ function tron(){
     ctx.closePath();
   }
 
-  function tronGameLoop (player1, player2) {
-        player1.paint();
-        player2.paint();
-        player1.move();
-        player2.move();
+  function drawMsg(){
+      ctx.font = "66px ArcadeFont";
+      ctx.fillStyle = '#FFFFFF';
+      ctx.textAlign = 'center';
+      ctx.fillText("Prepare", canvas.width/2, canvas.height/2);
+    }
 
-        if (player1.hasCollided(player2)&&player2.hasCollided(player1)) {
-          paintBoom(player1.position);
-        }
-        else if (player1.hasCollided(player2)) {
-          player2.wins += 1;
-          paintBoom(player1.position);
-          return;
-        }
-        if (player2.hasCollided(player1)) {
-          paintBoom(player2.position);
-          return;
-        }
-
-        //setTimeout(tronGameLoop (player1, player2), 500);
-
-        //requestAnimationFrame(tronGameLoop(player1, player2));
-  }
+    function drawInstruction() {
+        ctx.font = "24px ArcadeFont";
+        ctx.fillStyle = '#888888';
+        ctx.textAlign = 'center';
+        ctx.fillText("Press  ' ENTER '  to  start", canvas.width/2, canvas.height/2 + 30);
+    }
 
   function playTronGame(wins1, wins2) {
 
@@ -160,7 +152,7 @@ function tron(){
     //var player1Keys = keysToIndex("87", "90", "65", "83");
     var player1 = createPlayer(canvas.width/3/cellDimension,
                               canvas.height/2/cellDimension,
-                              "#FEFF49",
+                              "#DD0000",
                               direction.right,
     //                          player1Keys,
                               wins1);
@@ -168,7 +160,7 @@ function tron(){
     //var player2Keys = keysToIndex ("38", "40", "37", "39");
     var player2 = createPlayer(canvas.width/3*2/cellDimension,
                               canvas.height/2/cellDimension,
-                              "#00FF40",
+                              "#0000DD",
                               direction.left,
     //                          player2Keys,
                               wins2);
@@ -177,9 +169,11 @@ function tron(){
                     //let key = event.which || event.keyCode || 0;
                     //"87", "90", "65", "83"
                     let key = e.keyCode;
-                    console.log(key);
-                    console.log(direction[keysToIndex[key]]);
                     switch (key) {
+                      case 13 :
+                          isInGame = true;
+                          ctx.clearRect(0, 0, 600, 600);
+                          break;
                       case 87 :
                       case 83 :
                       case 65 :
@@ -206,7 +200,45 @@ function tron(){
 
     var interval = setInterval(tronGameLoop, speedIndex, player1, player2);
 
+    function drawFirstPlayer() {
+        ctx.font = "32px ArcadeFont";
+        ctx.fillStyle = "#DD0000";
+        ctx.textAlign = 'left';
+        ctx.fillText("Player 1 ", 10, 35, 250);
+    }
+
+    function drawSecondPlayer() {
+        ctx.font = "32px ArcadeFont";
+        ctx.fillStyle = "#0000DD";
+        ctx.textAlign = 'right';
+        ctx.fillText("Player 2 ", canvas.width - 10, 35, 250);
+    }
+
+    function drawScore() {
+        ctx.font = "32px ArcadeFont";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.textAlign = 'left';
+
+        ctx.fillText(player2.wins, canvas.width / 2 - 50, 35);
+        ctx.fillText(player1.wins, canvas.width / 2 + 30, 35);
+
+    }
+
+    function drawUpperBound() {
+        ctx.beginPath();
+        ctx.moveTo(0, 50);
+        ctx.lineTo(600, 50);
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.stroke();
+    }
+
     function tronGameLoop (player1, player2) {
+      if(isInGame){
+          drawFirstPlayer();
+          drawSecondPlayer();
+          drawScore();
+          drawUpperBound();
+
           player1.paint();
           player2.paint();
 
@@ -226,23 +258,30 @@ function tron(){
           }
           player1.move();
           player2.move();
-          // if (player1.hasCollided(player2)||player2.hasCollided(player1)) {
-          //   document.removeEventListener("keydown", onKeyDown);
-          //   if (player1.wins>=3||player2.wins>=3) {
-          //     //final screen with results player__.wins*pointsPerWin;
-          //     var winner = player1.wins>player2.wins ? 1 : 2;
-          //     printOnCanvas("Tron winner is player" + winner);
-          //     //waitForKey();
-          //     clearInterval(interval);
-          //   }
-          //   else {
-          //     printOnCanvas("Press a key to play again");
-          //     //waitForKey();
-          //     clearInterval(interval);
-          //     playTronGame(player1.wins, player2.wins);
-          //   }
-          //
-          // }
+           if (player1.hasCollided(player2)||player2.hasCollided(player1)) {
+             if(player1.hasCollided(player2)){player1.wins++}else{
+               player2.wins++;
+             }
+             document.removeEventListener("keydown", onKeyDown);
+             if (player1.wins>=3||player2.wins>=3) {
+               updateScoreBoard(1, player1.wins * pointsPerWin);
+               updateScoreBoard(2, player2.wins * pointsPerWin);
+               initializeNewLevel();
+               pingPong();
+               clearInterval(interval);
+             }
+             else {
+               isInGame = false;
+               clearInterval(interval);
+               playTronGame(player1.wins, player2.wins);
+               console.log(player1.wins);
+               console.log(player2.wins);
+            }
+          }
+        }else{
+          drawMsg();
+          drawInstruction();
+        }
     }
   }
 

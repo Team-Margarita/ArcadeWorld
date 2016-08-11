@@ -1,6 +1,6 @@
 function pingPong() {
 
-    // constants 
+    // constants
 
     const firstPlayerDownKey = 83,
         firstPlayerUpKey = 87,
@@ -8,7 +8,7 @@ function pingPong() {
         secondPlayerUpKey = 38,
         startKey = 13,
         paddleSpeed = 5;
-    
+
 
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
@@ -21,8 +21,8 @@ function pingPong() {
         downArrowPressed = false,
         upArrowPressed = false,
         wKeyPressed = false,
-        sKeyPressed = false;  
-        
+        sKeyPressed = false;
+
 
     // Paddels cords
     let paddleWidh = 20,
@@ -118,23 +118,23 @@ function pingPong() {
     function onKeyDown(e) {
         key = e.which;
         switch (key) {
-            case (secondPlayerUpKey): 
+            case (secondPlayerUpKey):
                 upArrowPressed = true;
                 downArrowPressed = false;
                 break;
-            case (secondPlayerDownKey): 
+            case (secondPlayerDownKey):
                 downArrowPressed = true;
                 upArrowPressed = false;
                 break;
-            case (firstPlayerUpKey): 
+            case (firstPlayerUpKey):
                 wKeyPressed = true;
                 sKeyPressed = false;
                 break;
-            case (firstPlayerDownKey): 
+            case (firstPlayerDownKey):
                 sKeyPressed = true;
                 wKeyPressed = false;
                 break;
-            case (startKey): 
+            case (startKey):
                 startPressed = true;
         }
     }
@@ -142,16 +142,16 @@ function pingPong() {
     function onKeyUp(e) {
         key = e.which;
         switch (key) {
-            case (secondPlayerUpKey): 
+            case (secondPlayerUpKey):
                 upArrowPressed = false;
                 break;
-            case (secondPlayerDownKey): 
+            case (secondPlayerDownKey):
                 downArrowPressed = false;
                 break;
             case (firstPlayerUpKey):
                 wKeyPressed = false;
                 break;
-            case (firstPlayerDownKey): 
+            case (firstPlayerDownKey):
                 sKeyPressed = false;
                 break;
         }
