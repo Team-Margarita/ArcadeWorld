@@ -8,11 +8,11 @@ function breakOut() {
       score = 0,
       lives = 6;
   //paddle
-  let paddleHeight = 25,
+  let paddleHeight = 20,
       paddleWidth = 90,
       paddleX = (canvas.width-paddleWidth)/2;
   //ball
-  let squareSide = 25;
+  let squareSide = 20;
   //block
   let blockRows = 6,
       blockColumns = 5,
