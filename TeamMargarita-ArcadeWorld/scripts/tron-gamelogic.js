@@ -1,7 +1,7 @@
 'use strict';
 function tron(){
 
-  const cellDimension = 15;
+  const cellDimension = 10;
   const pointsPerWin = 20;
   const speedIndex = 100;
   var isInGame = false;
