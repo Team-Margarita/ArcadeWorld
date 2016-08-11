@@ -245,14 +245,14 @@ function pingPong() {
     }
 
     function CheckPlayersScore() {
-        if (firstPLayerScore >= 10 || secondPlayerScore >= 10) {
+        if (firstPLayerScore >= 5 || secondPlayerScore >= 5) {
             callNextLvl();
         }
     }
 
     function callNextLvl() {
-        updateScoreBoard(1, firstPLayerScore * 5);
-        updateScoreBoard(2, secondPlayerScore * 5);
+        updateScoreBoard(1, firstPLayerScore * 10);
+        updateScoreBoard(2, secondPlayerScore * 10);
         initializeNewLevel();
         endScreen(); // CALL NEXT GAME
     }
