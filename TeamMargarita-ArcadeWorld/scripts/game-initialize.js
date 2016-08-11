@@ -1,5 +1,5 @@
 function beginGame(){
-    breakOut();
+    tron();
 }
 
 function initializeGame(){
