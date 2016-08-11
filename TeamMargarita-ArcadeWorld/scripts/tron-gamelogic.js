@@ -13,16 +13,16 @@ function tron(){
     return point;
   }
 
-    var keysToIndex =  {
-      "38" : "up",
-      "40" : "down",
-      "37" : "left",
-      "39" : "right",
-      "87" : "up",
-      "90" : "down",
-      "65" : "left",
-      "83" : "right"
-    };
+  var keysToIndex =  {
+    "38" : "up",
+    "40" : "down",
+    "37" : "left",
+    "39" : "right",
+    "87" : "up",
+    "90" : "down",
+    "65" : "left",
+    "83" : "right"
+  };
 
   function createPlayer (startX, startY, playerColor, playerDirection, initialWins) {
 
@@ -41,9 +41,8 @@ function tron(){
       history : [],
       color : playerColor,
       directionPair : playerDirection,
-      //keys : playerKeys,
       wins : initialWins,
-      draw : function() {
+      paint : function() {
         let canvas = document.getElementById("game-canvas");
         let ctx = canvas.getContext("2d");
         ctx.beginPath();
@@ -72,25 +71,30 @@ function tron(){
     return player;
   }
 
-  function drawBoom(point){
+  function paintBoom(point){
+    const boomW = 50;
+    const boomH = 50;
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
-    ctx.beginPath();
-    ctx.fillStyle = '#FF0000';
-    ctx.arc(point.x*cellDimension, point.y*cellDimension, cellDimension+1,0,2*Math.PI);
-    ctx.fill();
-    ctx.closePath();
+    let boom = new Image();
+    boom.src = './images/boom.png';
+    ctx.drawImage(boom, point.x*cellDimension, point.y*cellDimension, boomW, boomH);
+    // ctx.beginPath();
+    // ctx.fillStyle = '#FF0000';
+    // ctx.arc(point.x*cellDimension, point.y*cellDimension, cellDimension+1,0,2*Math.PI);
+    // ctx.fill();
+    // ctx.closePath();
   }
 
   function tronGameLoop (player1, player2) {
-        player1.draw();
-        player2.draw();
+        player1.paint();
+        player2.paint();
         if (player1.hasCollided(player2)) {
-          drawBoom(player1.position);
+          paintBoom(player1.position);
           return;
         }
         if (player2.hasCollided(player1)) {
-          drawBoom(player2.position);
+          paintBoom(player2.position);
           return;
         }
 
