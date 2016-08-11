@@ -108,7 +108,7 @@ function mainMenu(inGame){
              keys: 'UP DOWN LEFT RIGHT'
            },
            {
-             src: './images/player1_victory.png',
+             src: './images/pingpong-instr.jpg',
              name: 'ping pong',
              players: '2',
              description: 'Score 10 points against your opponent',
