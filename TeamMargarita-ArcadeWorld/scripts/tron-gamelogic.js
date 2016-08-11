@@ -53,8 +53,11 @@ function tron(){
       draw : function() {
         let canvas = document.getElementById("game-canvas");
         let ctx = canvas.getContext("2d");
+        ctx.beginPath();
         ctx.fillStyle = this.playerColor;
         ctx.fillRect(this.position.x * cellDimension, this.position.y * cellDimension, cellDimension, cellDimension);
+        ctx.fill();
+        ctx.closePath();
         console.log(this.position.x+","+this.position.y+","+cellDimension);
       },
       hasCollided : function(otherPlayer) {
@@ -76,9 +79,11 @@ function tron(){
   function drawBoom(point){
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
-    ctx.fillStyle = '#FF0000';
     ctx.beginPath();
+    ctx.fillStyle = '#FF0000';
     ctx.arc(point.x, point.y, cellDimension+1,0,2*Math.PI);
+    ctx.fill();
+    ctx.closePath();
   }
 
   function tronGameLoop (player1, player2) {
