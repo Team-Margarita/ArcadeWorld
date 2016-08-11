@@ -122,11 +122,11 @@ function tron(){
     document.addEventListener("keydown", function(event){
                     let key = event.which || event.keyCode || 0;
                     //if (player1.keys.indexOf(key)>=0){
-                    if (player1.keys[key]) {
+                    if (player1.keys[key]!=null) {
                       player1.direction = player1.keys[key];
                     }
                     // else if (player2.keys.indexOf(key)>=0) {
-                    if (player2.keys[key]) {
+                    if (player2.keys[key]!=null) {
                       player2.direction = player2.keys[key];
                     }
                     //gameStarted = key==="13";
