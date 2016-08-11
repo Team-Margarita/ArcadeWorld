@@ -1,5 +1,15 @@
 function pingPong() {
 
+    // constants 
+
+    const firstPlayerDownKey = 83,
+        firstPlayerUpKey = 87,
+        secondPlayerDownKey = 40,
+        secondPlayerUpKey = 38,
+        startKey = 13,
+        paddleSpeed = 5;
+    
+
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
 
@@ -11,19 +21,12 @@ function pingPong() {
         downArrowPressed = false,
         upArrowPressed = false,
         wKeyPressed = false,
-        sKeyPressed = false,
-        firstPlayerDownKey = 83,
-        firstPlayerUpKey = 87,
-        secondPlayerDownKey = 40,
-        secondPlayerUpKey = 38,
-        startKey = 13;       
+        sKeyPressed = false;  
         
 
     // Paddels cords
     let paddleWidh = 20,
         paddleHeight = 75;
-
-    let paddleSpeed = 5;
 
     // Firs player paddle cords
     let firstPLayerpaddleX = 0,
@@ -272,14 +275,13 @@ function pingPong() {
         else{
             drawMsg();
             drawInstruction();
+            reset();
         }
 
         requestAnimationFrame(GameLoop);
     }
 
-    GameLoop();
-    if(startPressed)
-    {
     setInterval(SpeedUp, 5000);
-    }
+    GameLoop();
+
 }
