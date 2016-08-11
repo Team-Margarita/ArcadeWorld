@@ -171,7 +171,7 @@ function tron(){
                               player2Keys,
                               0);
     //var gameStarted = false;
-    function onKeyDown(event){
+    function onKeyDown(event){ 
                     //let key = event.which || event.keyCode || 0;
                     let key = event.keyCode;
                     console.log(key);
