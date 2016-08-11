@@ -1,10 +1,4 @@
 function pingPong() {
-    //LOGIC FOR PING PONG HERE
-    //За момента може да слагате в state-a, където свършва играта един alert, като после
-    //ще се нагоди връзката между игрите
-    //Canvas-a е с размер 600x600
-
-    // Ако искате да си тествате само конкретната игра в game-initialize.js извиквайте тази функция
 
     let canvas = document.getElementById("game-canvas");
     let ctx = canvas.getContext("2d");
@@ -60,7 +54,7 @@ function pingPong() {
         ctx.font = "32px ArcadeFont";
         ctx.fillStyle = "#FFFFFF";
         ctx.textAlign = 'left';
-        ctx.fillText("First  Player  Score: " + firstPLayerScore, 10, 35, 250);
+        ctx.fillText("First  Player  Score   " + firstPLayerScore, 10, 35, 250);
 
     }
 
@@ -68,18 +62,7 @@ function pingPong() {
         ctx.font = "32px ArcadeFont";
         ctx.fillStyle = "#FFFFFF";
         ctx.textAlign = 'left';
-        ctx.fillText("Second  Player  Score: " + secondPlayerScore, canvas.width / 2 + 30, 35, 250);
-    }
-
-    function drawPrepeareMsg() {
-        ctx.font = "32px ArcadeFont";
-        if (playerId === 1) {
-            ctx.fillStyle = '#DD0000';
-        } else {
-            ctx.fillStyle = '#0000DD';
-        }
-        ctx.textAlign = 'center';
-        ctx.fillText("Prepare", canvas.width / 2, 35);
+        ctx.fillText("Second  Player  Score   " + secondPlayerScore, canvas.width / 2 + 30, 35, 250);
     }
 
     function drawUpperBound() {
@@ -89,6 +72,20 @@ function pingPong() {
         ctx.strokeStyle = '#FFFFFF';
         ctx.stroke();
     }
+
+    function drawMsg(){
+        ctx.font = "66px ArcadeFont";
+        ctx.fillStyle = 'blue';
+        ctx.textAlign = 'center';
+        ctx.fillText("Prepare", canvas.width/2, canvas.height/2);
+      }
+
+      function drawInstruction() {
+          ctx.font = "24px ArcadeFont";
+          ctx.fillStyle = '#888888';
+          ctx.textAlign = 'center';
+          ctx.fillText("Press  ' ENTER '  to  start", canvas.width/2, canvas.height/2 + 30);
+      }
 
     //events
     document.addEventListener("keydown", onKeyDown, false);
@@ -113,6 +110,8 @@ function pingPong() {
                 sKeyPressed = true;
                 wKeyPressed = false;
                 break;
+            case (13): // enter 
+                startPressed = true;    
         }
     }
 
@@ -167,8 +166,18 @@ function pingPong() {
         ballX += ballDeltaX;
     }
 
+    // resseting field for nextGame
+    function reset(){
+        ballX = canvas.width / 2;
+        ballY = canvas.height / 2;
+        secondPlayerPaddleX = canvas.width - paddleWidh;
+        secondPlayerPaddleY = canvas.height / 2 - paddleHeight / 2;
+        firstPLayerpaddleX = 0;
+        firstPlayerPaddleY = canvas.height / 2 - paddleHeight / 2;
+        startPressed = false;
+    }
 
-    // check for collision with player paddle 
+    // check for collision with player paddle if no adding points 
     function collisionCheck() {
         if (ballX + ballDeltaX < paddleWidh + 10 || ballX + ballDeltaX > canvas.width - paddleWidh - 10) {
             ballDeltaX *= -1;
@@ -182,16 +191,18 @@ function pingPong() {
 
         if (ballX + ballDeltaX < 0) {
             secondPlayerScore += 1;
-            ballX = canvas.width / 2;
-            ballY = canvas.height / 2;
-
+            reset();
 
         } else if (ballX + ballDeltaX > canvas.width) {
             firstPLayerScore += 1;
-            ballX = canvas.width / 2;
-            ballY = canvas.height / 2;
+            reset();
         }
 
+    }
+
+    function SpeedUp(){
+        ballDeltaX *= 1.2;
+        ballDeltaY *= 1.2;
     }
 
     function CheckPlayersScore() {
@@ -205,24 +216,31 @@ function pingPong() {
         updateScoreBoard(1, firstPLayerScore * 5);
         updateScoreBoard(2, secondPlayerScore * 5);
         initializeNewLevel();
-        endScreen();
+        endScreen(); // CALL NEXT GAME
     }
 
 
-    function TestFunction() {
+    function GameLoop() {
         ctx.clearRect(0, 0, 600, 600);
-        //drawPrepeareMsg();
+        if (startPressed){
         drawFirstPlayerScore();
         drawSecondPlayerScore();
         drawUpperBound();
         updatePaddleCords();
         collisionCheck();
+        CheckPlayersScore();
         updateBall()
         drawBall();
         drawPaddle(firstPLayerpaddleX, firstPlayerPaddleY);
         drawPaddle(secondPlayerPaddleX, secondPlayerPaddleY);
-        CheckPlayersScore();
+        }
+        else{
+            drawMsg();
+            drawInstruction();
+        }
     }
-    loop = setInterval(TestFunction, 25);
 
+
+    loop = setInterval(GameLoop, 25);
+    setInterval(SpeedUp, 10000);
 }

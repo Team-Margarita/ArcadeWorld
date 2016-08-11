@@ -1,5 +1,5 @@
 function beginGame(){
-  breakOut();
+    breakOut();
 }
 
 function initializeGame(){
