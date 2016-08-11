@@ -11,11 +11,19 @@ function pingPong() {
         downArrowPressed = false,
         upArrowPressed = false,
         wKeyPressed = false,
-        sKeyPressed = false;
+        sKeyPressed = false,
+        firstPlayerDownKey = 83,
+        firstPlayerUpKey = 87,
+        secondPlayerDownKey = 40,
+        secondPlayerUpKey = 38,
+        startKey = 13;       
+        
 
     // Paddels cords
     let paddleWidh = 20,
         paddleHeight = 75;
+
+    let paddleSpeed = 5;
 
     // Firs player paddle cords
     let firstPLayerpaddleX = 0,
@@ -107,23 +115,23 @@ function pingPong() {
     function onKeyDown(e) {
         key = e.which;
         switch (key) {
-            case (38): // upKey
+            case (secondPlayerUpKey): 
                 upArrowPressed = true;
                 downArrowPressed = false;
                 break;
-            case (40): // downKey
+            case (secondPlayerDownKey): 
                 downArrowPressed = true;
                 upArrowPressed = false;
                 break;
-            case (87): // wKey
+            case (firstPlayerUpKey): 
                 wKeyPressed = true;
                 sKeyPressed = false;
                 break;
-            case (83): // sKey
+            case (firstPlayerDownKey): 
                 sKeyPressed = true;
                 wKeyPressed = false;
                 break;
-            case (13): // enter
+            case (startKey): 
                 startPressed = true;
         }
     }
@@ -131,16 +139,16 @@ function pingPong() {
     function onKeyUp(e) {
         key = e.which;
         switch (key) {
-            case (38): // upKey
+            case (secondPlayerUpKey): 
                 upArrowPressed = false;
                 break;
-            case (40): // downKey
+            case (secondPlayerDownKey): 
                 downArrowPressed = false;
                 break;
-            case (87): // wKey
+            case (firstPlayerUpKey):
                 wKeyPressed = false;
                 break;
-            case (83): // sKey
+            case (firstPlayerDownKey): 
                 sKeyPressed = false;
                 break;
         }
@@ -151,22 +159,22 @@ function pingPong() {
     function updatePaddleCords() {
         if (upArrowPressed) {
             if (secondPlayerPaddleY > 55) {
-                secondPlayerPaddleY -= 5;
+                secondPlayerPaddleY -= paddleSpeed;
             }
         }
         if (downArrowPressed) {
             if (secondPlayerPaddleY < canvas.height - paddleHeight) {
-                secondPlayerPaddleY += 5;
+                secondPlayerPaddleY += paddleSpeed;
             }
         }
         if (wKeyPressed) {
             if (firstPlayerPaddleY > 55) {
-                firstPlayerPaddleY -= 5;
+                firstPlayerPaddleY -= paddleSpeed;
             }
         }
         if (sKeyPressed) {
             if (firstPlayerPaddleY < canvas.height - paddleHeight) {
-                firstPlayerPaddleY += 5;
+                firstPlayerPaddleY += paddleSpeed;
             }
         }
     }
