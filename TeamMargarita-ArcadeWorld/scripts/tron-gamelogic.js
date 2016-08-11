@@ -40,7 +40,7 @@ function tron(){
     }
   }
 
-  function createPlayer (startX, startY, playerColor, playerDirection, playerKeys, initialscore, ctx) {
+  function createPlayer (startX, startY, playerColor, playerDirection, playerKeys, initialscore) {
 
     var player = {
       //name: name,
@@ -50,7 +50,9 @@ function tron(){
       directionPair : playerDirection,
       keys : playerKeys,
       score : initialscore,
-      draw : function(ctx) {
+      draw : function() {
+        let canvas = document.getElementById("game-canvas");
+        let ctx = canvas.getContext("2d");
         ctx.fillStyle = this.playerColor;
         ctx.fillRect(this.position.x * cellDimension, this.position.y * cellDimension, cellDimension, cellDimension);
         console.log(this.position.x+","+this.position.y+","+cellDimension);
@@ -71,21 +73,23 @@ function tron(){
     return player;
   }
 
-  function drawBoom(point, ctx){
+  function drawBoom(point){
+    let canvas = document.getElementById("game-canvas");
+    let ctx = canvas.getContext("2d");
     ctx.fillStyle = '#FF0000';
     ctx.beginPath();
     ctx.arc(point.x, point.y, cellDimension+1,0,2*Math.PI);
   }
 
-  function tronGameLoop (player1, player2, ctx) {
-    player1.draw(ctx);
-    player2.draw(ctx);
+  function tronGameLoop (player1, player2) {
+    player1.draw();
+    player2.draw();
     if (player1.hasCollided) {
-      drawBoom(player1.position, ctx);
+      drawBoom(player1.position);
       return;
     }
     if (player2.hasCollided) {
-      drawBoom(player2.position, ctx);
+      drawBoom(player2.position);
       return;
     }
     player1.move();
@@ -105,8 +109,7 @@ function tron(){
                               '#FEFF49',
                               direction.right,
                               player1Keys,
-                              0,
-                              ctx );
+                              0);
 
     var player2Keys = keysToIndex (38, 40, 37, 39);
     var player2 = createPlayer(canvas.width/3*2/cellDimension,
@@ -114,8 +117,7 @@ function tron(){
                               '#00FF40',
                               direction.left,
                               player2Keys,
-                              0,
-                              ctx);
+                              0);
     //var gameStarted = false;
     document.addEventListener("keydown", function(event){
                     let key = event.which || event.keyCode || 0;
