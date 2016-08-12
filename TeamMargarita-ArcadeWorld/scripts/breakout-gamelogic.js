@@ -236,7 +236,7 @@ function breakOut() {
   function gameLoop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if(!startPressed){
-        startScreen(playerId, startPressed);
+        startScreen(playerId, startPressed, 'breakout');
       }
       else
       {
@@ -317,13 +317,13 @@ function breakOut() {
   }
 
   function callNextLvl(){
-    updateScoreBoard(playerId, score * 2);
+    updateScoreBoard(0, score * 2);
     initializeNewLevel();
     snake();
   }
 
   function endTurn(){
-      updateScoreBoard(playerId, score * 2);
+      updateScoreBoard(score * 2, 0);
       reset();
   }
 

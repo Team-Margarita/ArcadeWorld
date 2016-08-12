@@ -28,7 +28,7 @@ function initializeNewLevel(){
   $canvasContainer.append('<canvas id="game-canvas" width="600" height="600"></canvas>');
 }
 
-function startScreen(playerId, startPressed){
+function startScreen(playerId, startPressed, gameName){
 
   let canvas = document.getElementById("game-canvas");
   if(canvas){
@@ -52,8 +52,20 @@ function startScreen(playerId, startPressed){
           ctx.fillText("Press  ' ENTER '  to  start", canvas.width/2, canvas.height/2 + 30);
       }
 
+      function drawGameName() {
+          ctx.font = "50px ArcadeFont";
+          ctx.fillStyle = '#888888';
+          ctx.textAlign = 'center';
+          if(gameName === 'breakout'){
+          ctx.fillText("BREAKOUT", canvas.width/2, canvas.height/2 - 58);
+          }else if(gameName === 'snake'){
+            ctx.fillText("SNAKE", canvas.width/2, canvas.height/2 - 58);
+          }
+      }
+
       drawPlayer();
       drawInstruction();
+      drawGameName();
     }
 }
 

@@ -49,19 +49,11 @@ function snake() {
         }
     }
 
-    //var background = new Image();
-    //background.src = "https://raw.githubusercontent.com/Team-Margarita/ArcadeWorld/master/TeamMargarita-ArcadeWorld/images/snake_bck.jpg";
-    //background.src = "./images/snake_bck.jpg"; //load local
-
     function paint() {
         if (!startPressed) {
-            startScreen(playerId, startPressed);
+            startScreen(playerId, startPressed, 'snake');
         } else {
             ctx.clearRect(0, 0, w, h);
-
-            //ctx.drawImage(background, 0, 0);
-            //ctx.fillStyle = "rgba(0, 0, 200, 0)";
-            //ctx.fillRect(0, 0, w, h);
 
             var nx = snake_array[0].x;
             var ny = snake_array[0].y;
@@ -74,15 +66,18 @@ function snake() {
 
             if (nx == -1 || nx == w / cw || ny == 1 || ny == h / cw || check_collision(nx, ny, snake_array)) {
                 //restart game/game over condition
-                //window.alert("Game over!");
-                updateScoreBoard(playerId, score);
+                if(playerId === 1){
+                updateScoreBoard(score, 0);
+                }else{
+                updateScoreBoard(0, score);
+                }
                 score = 0;
                 startPressed = false;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 if (playerId === 2) {
                     clearInterval(game_loop);
                     initializeNewLevel();
-                    tron(); //CALL NEXT GAME
+                    tron();
                 } else {
                     playerId += 1;
                     init();
@@ -113,32 +108,6 @@ function snake() {
 
             paint_food(food.x, food.y);
 
-            function drawScore() {
-                ctx.font = "32px ArcadeFont";
-                ctx.fillStyle = "#FFFFFF";
-                ctx.textAlign = 'left';
-                ctx.fillText("Score  " + score, 10, 35);
-            }
-
-            function drawPlayerOnTurn() {
-                ctx.font = "32px ArcadeFont";
-                if (playerId === 1) {
-                    ctx.fillStyle = '#DD0000';
-                } else {
-                    ctx.fillStyle = '#0000DD';
-                }
-                ctx.textAlign = 'center';
-                ctx.fillText("Player " + playerId, canvas.width / 2, 35);
-            }
-
-            function drawUpperBound() {
-                ctx.beginPath();
-                ctx.moveTo(0, 50);
-                ctx.lineTo(600, 50);
-                ctx.strokeStyle = '#FFFFFF';
-                ctx.stroke();
-            }
-
             drawScore();
             drawPlayerOnTurn();
             drawUpperBound();
@@ -148,11 +117,9 @@ function snake() {
         function paint_food(x, y) {
             ctx.fillStyle = '#FFFFFF';
             ctx.fillRect(x * cw, y * cw, cw, cw);
-            ctx.strokeStyle = '#000000';
-            ctx.strokeRect(x * cw, y * cw, cw, cw);
         }
         //paint cells
-        function paint_cell(x, y, isFood) {
+        function paint_cell(x, y) {
             if (playerId === 1) {
                 ctx.fillStyle = '#DD0000';
             } else if (playerId === 2) {
@@ -163,15 +130,9 @@ function snake() {
             ctx.fillRect(x * cw, y * cw, cw, cw);
             ctx.strokeStyle = '#000000';
             ctx.strokeRect(x * cw, y * cw, cw, cw);
-            //ctx.shadowColor = "#7100fd";
-            //ctx.shadowBlur = 20;
-            //ctx.shadowOffsetX = 0;
-            //ctx.shadowOffsetY = 0;
         }
 
         function check_collision(x, y, array) {
-            //This function will check if the provided x/y coordinates exist
-            //in an array of cells or not
             for (var i = 0; i < array.length; i++) {
                 if (array[i].x == x && array[i].y == y)
                     return true;

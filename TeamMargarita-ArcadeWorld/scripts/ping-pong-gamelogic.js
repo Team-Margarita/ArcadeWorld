@@ -111,6 +111,13 @@ function pingPong() {
           ctx.fillText("Press  ' ENTER '  to  start", canvas.width/2, canvas.height/2 + 30);
       }
 
+      function drawGameName() {
+          ctx.font = "50px ArcadeFont";
+          ctx.fillStyle = '#888888';
+          ctx.textAlign = 'center';
+          ctx.fillText("PING PONG", canvas.width/2, canvas.height/2 - 58);
+      }
+
     //events
     document.addEventListener("keydown", onKeyDown, false);
     document.addEventListener("keyup", onKeyUp, false);
@@ -251,8 +258,7 @@ function pingPong() {
     }
 
     function callNextLvl() {
-        updateScoreBoard(1, firstPLayerScore * 10);
-        updateScoreBoard(2, secondPlayerScore * 10);
+        updateScoreBoard(firstPLayerScore * 10, secondPlayerScore * 10);
         initializeNewLevel();
         endScreen(); // CALL NEXT GAME
     }
@@ -273,6 +279,7 @@ function pingPong() {
         drawPaddle(2, secondPlayerPaddleX, secondPlayerPaddleY);
         }
         else{
+            drawGameName();
             drawMsg();
             drawInstruction();
             reset();

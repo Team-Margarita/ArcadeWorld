@@ -9,10 +9,13 @@ function createSvgRectangle(){
   document.getElementById('score-board').appendChild(rect);
 }
 
-function updateScoreBoard(playerId, scoreToAdd){
+function updateScoreBoard(player1scoreToAdd, player2scoreToAdd){
+  console.log('here');
     player1Score = $("#player1-score").text() | 0;
     player2Score = $("#player2-score").text() | 0;
-      playerId === 1 ? (player1Score += scoreToAdd) : (player2Score += scoreToAdd);
+
+    player1Score += player1scoreToAdd;
+    player2Score += player2scoreToAdd;
 
     let denominator = player1Score + player2Score;
     let ratio = Math.round((player1Score / denominator) * 100);

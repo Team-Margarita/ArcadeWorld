@@ -111,12 +111,12 @@ function mainMenu(inGame){
              src: './images/pingpong-instr.jpg',
              name: 'ping pong',
              players: '2',
-             description: 'Score 10 points against your opponent',
-             points: 'x 5',
+             description: 'Score 5 points against your opponent',
+             points: 'x 10',
              keys: '</br>UP DOWN</br>W S'
            },
            {
-             src: './images/player1_victory.png',
+             src: './images/tron-instr.jpg',
              name: 'tron',
              players: '2',
              description: 'Achieve 3 wins against your opponent',
