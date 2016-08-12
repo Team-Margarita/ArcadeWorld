@@ -87,7 +87,7 @@ function breakOut() {
           for(let r = 0; r<blockRows; r+=1) {
               let b = blocks[c][r];
               if(b.status !== 0) {
-                  if(x > b.x && x < b.x+blockWidth && y > b.y && y < b.y+blockHeight) {
+                  if(x + squareSide/2 > b.x && x + squareSide/2 < b.x+blockWidth && y > b.y && y < b.y+blockHeight) {
                       dy = -dy;
                       b.status -= 1;
                       if(b.status === 0)
@@ -256,7 +256,7 @@ function breakOut() {
           dy = -dy;
       }
       if(y + dy > canvas.height - squareSide - paddleHeight) {
-          if(x > paddleX && x < paddleX + paddleWidth) {
+          if(x + squareSide/2 > paddleX && x + squareSide/2 < paddleX + paddleWidth) {
               dy = -dy;
           }
           else {

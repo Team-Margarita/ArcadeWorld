@@ -37,6 +37,8 @@ function pingPong() {
         secondPlayerPaddleY = canvas.height / 2 - paddleHeight / 2;
 
     //ball cords
+    let ballSide = 20;
+
     let ballX = canvas.width / 2,
         ballY = canvas.height / 2;
 
@@ -47,7 +49,7 @@ function pingPong() {
     // draw functions
     function drawBall() {
         ctx.beginPath();
-        ctx.rect(ballX, ballY, 20, 20);
+        ctx.rect(ballX, ballY, ballSide, ballSide);
         ctx.fillStyle = '#FFFFFF';
         ctx.fill();
         ctx.closePath();
@@ -222,12 +224,12 @@ function pingPong() {
     // check for collision with player paddle if no adding points
     function collisionCheck() {
 
-        if (ballX + ballDeltaX < paddleWidh || ballX + ballDeltaX > canvas.width - paddleWidh - 15) {
+        if (ballX < paddleWidh || ballX + ballSide> canvas.width - paddleWidh) {
             ballDeltaX *= -1;
-            if (((ballY + ballDeltaY < firstPlayerPaddleY ||
-                    ballY + ballDeltaY > firstPlayerPaddleY + paddleHeight) && ballDeltaX > 0) ||
-                ((ballY + ballDeltaY < secondPlayerPaddleY ||
-                    ballY + ballDeltaY > secondPlayerPaddleY + paddleHeight) && ballDeltaX < 0)) {
+            if (((ballY + ballSide / 2 < firstPlayerPaddleY ||
+                    ballY + ballSide / 2 > firstPlayerPaddleY + paddleHeight) && ballDeltaX > 0) ||
+                ((ballY + ballSide / 2 < secondPlayerPaddleY ||
+                    ballY + ballSide / 2 > secondPlayerPaddleY + paddleHeight) && ballDeltaX < 0)) {
                 ballDeltaX *= -1;
             }
         }
