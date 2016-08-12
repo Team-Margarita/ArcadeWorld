@@ -129,18 +129,17 @@ function mainMenu(inGame){
       var $wrapper = $('#game-wrapper');
       $wrapper.empty();
 
-      var instrTemplate = `<div id='instructions-title'>INSTRUCTIONS</div>
-      {{#each games}}
-        <div class = "gameinstructions-container">
-          <img src="{{src}}" />
-          <div class = 'game-title'>{{name}}</div>
-          <div class = 'game-description'><span>Description</span>: {{description}}</div>
-          <div class = 'game-keys'><span>Keys</span>: {{{keys}}}</div>
-          <div class = 'game-points'><span>Points</span>: {{points}}</div>
-          <div class = 'game-players'><span>Players</span>: {{players}}</div>
-        </div>
-      {{/each}}
-      `;
+      var instrTemplate = '<div id="instructions-title">INSTRUCTIONS</div>' +
+      '{{#each games}}' +
+        '<div class = "gameinstructions-container">' +
+          '<img src="{{src}}" />' +
+          '<div class = "game-title">{{name}}</div>' +
+          '<div class = "game-description"><span>Description</span>: {{description}}</div>' +
+          '<div class = "game-keys"><span>Keys</span>: {{{keys}}}</div>' +
+          '<div class = "game-points"><span>Points</span>: {{points}}</div>' +
+          '<div class = "game-players"><span>Players</span>: {{players}}</div>' +
+        '</div>' +
+      '{{/each}}';
 
       var template = Handlebars.compile(instrTemplate);
 

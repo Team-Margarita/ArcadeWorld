@@ -5,7 +5,7 @@ function tron(){
   const pointsPerWin = 20;
   const speedIndex = 70;
   var isInGame = false;
-  
+
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
 
