@@ -147,9 +147,7 @@ function mainMenu(inGame){
       $wrapper.html(template(data));
 
       var $instrDiv = $('<div/>').append('<span/>').attr('class', 'instructions').text("Press 'B' to return to main menu.");
-
       $wrapper.append($instrDiv);
-
     }
 
     //Function for creating about page
@@ -171,6 +169,5 @@ function mainMenu(inGame){
 
         $wrapper.append($teamlogo);
         $wrapper.append($description);
-        //TODO: Implementation
     }
 }

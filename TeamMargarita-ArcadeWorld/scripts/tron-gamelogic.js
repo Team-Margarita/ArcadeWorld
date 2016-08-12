@@ -5,6 +5,7 @@ function tron(){
   const pointsPerWin = 20;
   const speedIndex = 70;
   var isInGame = false;
+  
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
 
@@ -29,9 +30,6 @@ function tron(){
   }
 
   function printOnCanvas(textToPrint) {
-    let canvas = document.getElementById("game-canvas");
-    let ctx = canvas.getContext("2d");
-
     ctx.font = "24px ArcadeFont";
     ctx.fillStyle = '#888888';
     ctx.textAlign = 'center';
@@ -61,15 +59,12 @@ function tron(){
     }
 
     var player = {
-      //name: name,
       position : createPoint(startX, startY),
       history : [],
       color : playerColor,
       directionPair : playerDirection,
       wins : initialWins,
       paint : function() {
-        let canvas = document.getElementById("game-canvas");
-        let ctx = canvas.getContext("2d");
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.fillRect(this.position.x * cellDimension, this.position.y * cellDimension, cellDimension, cellDimension);
@@ -77,8 +72,6 @@ function tron(){
         ctx.closePath();
       },
       hasCollided : function(otherPlayer) {
-        let canvas = document.getElementById("game-canvas");
-        let ctx = canvas.getContext("2d");
         var playerHitHimself = positionIsInHistory(this.position, this.history);
         var playerHitTheWalls = this.position.x<=0||this.position.x>=canvas.width/cellDimension
                               || this.position.y<=4||this.position.y>=canvas.height/cellDimension;
@@ -138,29 +131,21 @@ function tron(){
       }
     }
 
-    let canvas = document.getElementById("game-canvas");
-    let ctx = canvas.getContext("2d");
-
-    //var player1Keys = keysToIndex("87", "90", "65", "83");
     var player1 = createPlayer(canvas.width/3/cellDimension,
                               canvas.height/2/cellDimension,
                               "#DD0000",
                               direction.right,
-    //                          player1Keys,
                               wins1);
 
-    //var player2Keys = keysToIndex ("38", "40", "37", "39");
     var player2 = createPlayer(canvas.width/3*2/cellDimension,
                               canvas.height/2/cellDimension,
                               "#0000DD",
                               direction.left,
-    //                          player2Keys,
                               wins2);
 
      function onKeyDown(e) {
-                    //let key = event.which || event.keyCode || 0;
+                    let key = event.which || event.keyCode || 0;
                     //"87", "90", "65", "83"
-                    let key = e.keyCode;
                     if(key === 13){
                       isInGame = true;
                       ctx.clearRect(0, 0, 600, 600);
@@ -274,7 +259,6 @@ function tron(){
         }
     }
   }
-
 
     playTronGame(0, 0);
 

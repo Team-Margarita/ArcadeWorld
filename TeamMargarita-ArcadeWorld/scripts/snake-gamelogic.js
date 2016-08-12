@@ -49,31 +49,31 @@ function snake() {
         }
     }
 
-    function paint() {
+    function drawScore() {
+        ctx.font = "32px ArcadeFont";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.textAlign = 'left';
+        ctx.fillText("Score  " + score, 10, 35);
+    }
+    function drawPlayerOnTurn() {
+        ctx.font = "32px ArcadeFont";
+        if(playerId === 1){
+        ctx.fillStyle = '#DD0000';
+        }else{
+        ctx.fillStyle = '#0000DD';
+        }
+        ctx.textAlign = 'center';
+        ctx.fillText("Player " + playerId, canvas.width/2, 35);
+    }
+    function drawUpperBound(){
+      ctx.beginPath();
+      ctx.moveTo(0, 50);
+      ctx.lineTo(600, 50);
+      ctx.strokeStyle= '#FFFFFF';
+      ctx.stroke();
+    }
 
-      function drawScore() {
-          ctx.font = "32px ArcadeFont";
-          ctx.fillStyle = "#FFFFFF";
-          ctx.textAlign = 'left';
-          ctx.fillText("Score  "+score, 10, 35);
-      }
-      function drawPlayerOnTurn() {
-          ctx.font = "32px ArcadeFont";
-          if(playerId === 1){
-          ctx.fillStyle = '#DD0000';
-          }else{
-          ctx.fillStyle = '#0000DD';
-          }
-          ctx.textAlign = 'center';
-          ctx.fillText("Player " + playerId, canvas.width/2, 35);
-      }
-      function drawUpperBound(){
-        ctx.beginPath();
-        ctx.moveTo(0, 50);
-        ctx.lineTo(600, 50);
-        ctx.strokeStyle= '#FFFFFF';
-        ctx.stroke();
-      }
+    function paint() {
 
         if (!startPressed) {
             startScreen(playerId, startPressed, 'snake');

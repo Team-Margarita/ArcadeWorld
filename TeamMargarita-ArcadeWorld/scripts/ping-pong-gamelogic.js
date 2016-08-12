@@ -87,8 +87,6 @@ function pingPong() {
         ctx.fillText(secondPlayerScore, canvas.width / 2 + 30, 35);
     }
 
-
-
     function drawUpperBound() {
         ctx.beginPath();
         ctx.moveTo(0, 50);
@@ -163,7 +161,6 @@ function pingPong() {
                 break;
         }
     }
-
 
     // update Cords functions
     function updatePaddleCords() {

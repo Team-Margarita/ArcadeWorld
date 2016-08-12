@@ -5,15 +5,18 @@ function beginGame(){
 function initializeGame(){
   var $root = $('#root');
   $root.empty();
+
   var $scoreboardContainer = $('<div/>').attr('id', 'scoreboard-container');
 
   $root.append($scoreboardContainer);
+
   var $player1Score = $('<span/>').attr('id', 'player1-score')
              .text('000');
   var $player2Score = $('<span/>').attr('id', 'player2-score')
              .text('000');
   $scoreboardContainer.append($player1Score);
   $scoreboardContainer.append($player2Score);
+
   $scoreboardContainer.append('<svg id="score-board" xmlns="http://www.w3.org/2000/svg">');
   createSvgRectangle();
   $root.append('<div id="canvas-container">');
@@ -31,6 +34,7 @@ function initializeNewLevel(){
 function startScreen(playerId, startPressed, gameName){
 
   let canvas = document.getElementById("game-canvas");
+
   if(canvas){
       let ctx = canvas.getContext("2d");
 
@@ -92,10 +96,8 @@ function endScreen(){
   function returnToMainMenu(e){
     let key = e.which || e.keyCode || 0;
     if(key === 13) {
-        //initializeNewLevel();
         document.removeEventListener('keypress', returnToMainMenu);
         location.reload();
-        //mainMenu();
     }
   }
     var trophy = new Image();
@@ -106,23 +108,24 @@ function endScreen(){
     }else{
       trophy.src = './images/draw.png';
     }
-    console.log(trophy.src);
-  function loop(){
 
+    function drawWinner(){
+      ctx.font = "66px ArcadeFont";
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.fillText(winner, canvas.width/2, canvas.height/2 + 100);
+    }
+    function drawInstruction() {
+        ctx.font = "24px ArcadeFont";
+        ctx.fillStyle = '#888888';
+        ctx.textAlign = 'center';
+        ctx.fillText("Press  ' ENTER '  to  return", canvas.width/2, canvas.height/2 + 130);
+    }
+
+    function loop(){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(trophy, 150, 70, 300, 300);
-      function drawWinner(){
-        ctx.font = "66px ArcadeFont";
-        ctx.fillStyle = color;
-        ctx.textAlign = 'center';
-        ctx.fillText(winner, canvas.width/2, canvas.height/2 + 100);
-      }
-      function drawInstruction() {
-          ctx.font = "24px ArcadeFont";
-          ctx.fillStyle = '#888888';
-          ctx.textAlign = 'center';
-          ctx.fillText("Press  ' ENTER '  to  return", canvas.width/2, canvas.height/2 + 130);
-      }
+
       drawWinner();
       drawInstruction();
 

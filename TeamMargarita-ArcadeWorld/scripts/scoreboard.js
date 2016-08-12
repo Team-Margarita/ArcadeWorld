@@ -10,7 +10,6 @@ function createSvgRectangle(){
 }
 
 function updateScoreBoard(player1scoreToAdd, player2scoreToAdd){
-  console.log('here');
     player1Score = $("#player1-score").text() | 0;
     player2Score = $("#player2-score").text() | 0;
 
